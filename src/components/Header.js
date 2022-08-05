@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
@@ -21,13 +21,13 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: state.login.email,
-  name: state.login.name,
+  email: state.player.gravatarEmail,
+  name: state.player.name,
 });
 
 Header.propTypes = {
-  email: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  email: string.isRequired,
+  name: string.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

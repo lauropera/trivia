@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import { addPlayer } from '../redux/actions';
-import logo from '../trivia.png';
-import SettingsButton from '../components/SettingsButton';
-import '../App.css';
-import requestTokenAPI from '../services/requestTokenAPI';
 import { saveStorage } from '../services/localStorage';
+import SettingsButton from '../components/SettingsButton';
+import requestTokenAPI from '../services/requestTokenAPI';
+import logo from '../trivia.png';
+import '../App.css';
 
 class Login extends React.Component {
   state = {
@@ -30,8 +30,8 @@ class Login extends React.Component {
   };
 
   handleClick = async (event) => {
-    const { name, email } = this.state;
     event.preventDefault();
+    const { name, email } = this.state;
     const { addPlayerDispatch, history } = this.props;
     addPlayerDispatch({ name, email });
     const token = await requestTokenAPI();
@@ -42,15 +42,12 @@ class Login extends React.Component {
   render() {
     const { isSaveButtonDisabled } = this.state;
     return (
-      <div>
-        <div className="App">
-          <header className="App-header">
-            <img src={ logo } className="App-logo" alt="logo" />
-            <p>SUA VEZ</p>
-          </header>
-        </div>
+      <div className="App">
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+          <p>SUA VEZ</p>
+        </header>
         <form>
-          Login
           <label htmlFor="input-gravatar-email">
             Email
             <input
@@ -89,10 +86,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  addPlayerDispatch: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  addPlayerDispatch: func.isRequired,
+  history: shape({ push: func }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
