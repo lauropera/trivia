@@ -5,6 +5,8 @@ import { addPlayer } from '../redux/actions';
 import logo from '../trivia.png';
 import SettingsButton from '../components/SettingsButton';
 import '../App.css';
+import requestTokenAPI from '../services/requestTokenAPI';
+import { saveStorage } from '../services/localStorage';
 
 class Login extends React.Component {
   state = {
@@ -27,11 +29,13 @@ class Login extends React.Component {
     this.setState({ isSaveButtonDisabled: !validation });
   };
 
-  handleClick = (event) => {
+  handleClick = async (event) => {
     const { name, email } = this.state;
     event.preventDefault();
     const { addPlayerDispatch, history } = this.props;
     addPlayerDispatch({ name, email });
+    const token = await requestTokenAPI();
+    saveStorage('token', token);
     history.push('/game');
   };
 
