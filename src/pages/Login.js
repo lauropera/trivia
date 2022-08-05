@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addPlayer } from '../redux/actions';
 import logo from '../trivia.png';
+import SettingsButton from '../components/SettingsButton';
 import '../App.css';
 
 class Login extends React.Component {
@@ -79,6 +80,7 @@ class Login extends React.Component {
 
           </button>
         </form>
+        <SettingsButton />
       </div>
     );
   }
