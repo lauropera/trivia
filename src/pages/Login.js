@@ -11,14 +11,12 @@ class Login extends React.Component {
     name: '',
     email: '',
     isSaveButtonDisabled: true,
-  }
+  };
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    }, () => this.buttonChange());
-  }
+    this.setState({ [name]: value }, () => this.buttonChange());
+  };
 
   buttonChange = () => {
     const { email, name } = this.state;
@@ -26,22 +24,19 @@ class Login extends React.Component {
     const emailValidation = /\S+@\S+\.\S+/;
     const validation = emailValidation.test(email) && name.length >= minValue;
     // regex retirado de: https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
-    this.setState({
-      isSaveButtonDisabled: !validation,
-    });
-  }
+    this.setState({ isSaveButtonDisabled: !validation });
+  };
 
   handleClick = (event) => {
     const { name, email } = this.state;
     event.preventDefault();
-    const { addPlayerDispatch } = this.props;
+    const { addPlayerDispatch, history } = this.props;
     addPlayerDispatch({ name, email });
-  }
+    history.push('/game');
+  };
 
   render() {
-    const {
-      isSaveButtonDisabled,
-    } = this.state;
+    const { isSaveButtonDisabled } = this.state;
     return (
       <div>
         <div className="App">
@@ -77,7 +72,6 @@ class Login extends React.Component {
             {' '}
             Play
             {' '}
-
           </button>
         </form>
         <SettingsButton />
@@ -92,6 +86,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   addPlayerDispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
