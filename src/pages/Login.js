@@ -23,16 +23,11 @@ class Login extends React.Component {
     const { email, name } = this.state;
     const minValue = 3;
     const emailValidation = /\S+@\S+\.\S+/;
+    const validation = emailValidation.test(email) && name.length >= minValue;
     // regex retirado de: https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
-    if (emailValidation.test(email) && name.length >= minValue) {
-      this.setState({
-        isSaveButtonDisabled: false,
-      });
-    } else {
-      this.setState({
-        isSaveButtonDisabled: true,
-      });
-    }
+    this.setState({
+      isSaveButtonDisabled: !validation,
+    });
   }
 
   handleClick = (event) => {
@@ -54,34 +49,36 @@ class Login extends React.Component {
             <p>SUA VEZ</p>
           </header>
         </div>
-        Login
-        <label htmlFor="input-gravatar-email">
-          Email
-          <input
-            name="email"
-            onChange={ this.handleChange }
-            data-testid="input-gravatar-email"
-          />
-        </label>
-        <label htmlFor="input-player-name">
-          Name
-          <input
-            name="name"
-            onChange={ this.handleChange }
-            data-testid="input-player-name"
-          />
-        </label>
-        <button
-          data-testid="btn-play"
-          onClick={ this.handleClick }
-          type="submit"
-          disabled={ isSaveButtonDisabled }
-        >
-          {' '}
-          Play
-          {' '}
+        <form>
+          Login
+          <label htmlFor="input-gravatar-email">
+            Email
+            <input
+              name="email"
+              onChange={ this.handleChange }
+              data-testid="input-gravatar-email"
+            />
+          </label>
+          <label htmlFor="input-player-name">
+            Name
+            <input
+              name="name"
+              onChange={ this.handleChange }
+              data-testid="input-player-name"
+            />
+          </label>
+          <button
+            data-testid="btn-play"
+            onClick={ this.handleClick }
+            type="submit"
+            disabled={ isSaveButtonDisabled }
+          >
+            {' '}
+            Play
+            {' '}
 
-        </button>
+          </button>
+        </form>
       </div>
     );
   }
