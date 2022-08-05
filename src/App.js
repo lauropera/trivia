@@ -1,13 +1,12 @@
 import React from 'react';
-import logo from './trivia.png';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import Login from './pages/Login';
 
+// começando
 export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>SUA VEZ</p>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+    </Switch>
   );
 }
