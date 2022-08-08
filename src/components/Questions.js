@@ -63,7 +63,7 @@ class Questions extends Component {
       () => Math.random() - VALUE_BETWEEN,
     );
 
-    return questions
+    return questions;
   };
 
   render() {
