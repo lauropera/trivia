@@ -2,6 +2,7 @@ import { func, shape } from 'prop-types';
 import React, { Component } from 'react';
 import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestTokenAPI';
+import '../styles/QuestionsStyle.css';
 
 class Questions extends Component {
   state = {
@@ -66,8 +67,18 @@ class Questions extends Component {
     return questions;
   };
 
+  handleClick = () => {
+    this.setState({ click: true });
+  }
+
   render() {
-    const { gameCategory, questionName, answers, correctAnswer, click } = this.state;
+    const {
+      gameCategory,
+      questionName,
+      answers,
+      correctAnswer,
+      click,
+    } = this.state;
 
     return (
       <div>
@@ -77,20 +88,20 @@ class Questions extends Component {
           {answers.map((answer, index) => (answer === correctAnswer ? (
             <button
               key={ answer }
-              value={ answer }
               type="button"
               data-testid="correct-answer"
               onClick={ this.handleClick }
+              className={ click ? 'correct' : '' }
             >
               {answer}
             </button>
           ) : (
             <button
               key={ answer }
-              value={ answer }
+              onClick={ this.handleClick }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              onClick={ this.handleClick }
+              className={ click ? 'wrong' : '' }
             >
               {answer}
             </button>
