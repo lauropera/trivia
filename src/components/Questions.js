@@ -67,10 +67,6 @@ class Questions extends Component {
     return questions;
   };
 
-  handleClick = () => {
-    this.setState({ click: true });
-  }
-
   render() {
     const {
       gameCategory,
