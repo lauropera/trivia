@@ -5,11 +5,11 @@ import { fetchGame } from '../services/requestTokenAPI';
 
 class Questions extends Component {
   state = {
-    gameCategory: '',
     gameQuestions: [],
+    gameCategory: '',
+    questionName: '',
     questionNumber: 0,
     answers: [],
-    questionName: '',
     correctAnswer: '',
   };
 
@@ -17,28 +17,41 @@ class Questions extends Component {
     this.setGame();
   }
 
+  handleClick = ({ target }) => {
+    this.setState({ click: true });
+    if (target.name === 'next') {
+      this.setState((pastState) => ({
+        questionNumber: pastState.questionNumber + 1,
+        click: false,
+      }),
+      () => this.setNewQuestion());
+    }
+  };
+
   setGame = async () => {
     const token = getStorage('token');
-    const { history } = this.props;
-    const { questionNumber } = this.state;
     const { results } = await fetchGame(token);
-    if (results.length === 0) {
+    this.validateQuestions(results);
+    this.setState({ gameQuestions: results }, () => this.setNewQuestion());
+  };
+
+  setNewQuestion = () => {
+    const { questionNumber, gameQuestions } = this.state;
+    const answers = this.setGameQuestions(gameQuestions[questionNumber]);
+    this.setState({
+      gameCategory: gameQuestions[questionNumber].category,
+      questionName: gameQuestions[questionNumber].question,
+      correctAnswer: gameQuestions[questionNumber].correct_answer,
+      answers,
+    });
+  };
+
+  validateQuestions = (questions) => {
+    const { history } = this.props;
+    if (questions.length === 0) {
       history.push('/');
       localStorage.clear();
     }
-    const answers = this.setGameQuestions(results[questionNumber]);
-
-    this.setState({
-      gameQuestions: results,
-      answers,
-    }, () => {
-      const { gameQuestions } = this.state;
-      this.setState({
-        gameCategory: gameQuestions[questionNumber].category,
-        questionName: gameQuestions[questionNumber].question,
-        correctAnswer: gameQuestions[questionNumber].correct_answer,
-      });
-    });
   };
 
   setGameQuestions = (question) => {
@@ -54,12 +67,7 @@ class Questions extends Component {
   };
 
   render() {
-    const {
-      gameCategory,
-      questionName,
-      answers,
-      correctAnswer,
-    } = this.state;
+    const { gameCategory, questionName, answers, correctAnswer, click } = this.state;
 
     return (
       <div>
@@ -67,19 +75,37 @@ class Questions extends Component {
         <h4 data-testid="question-text">{questionName}</h4>
         <div data-testid="answer-options">
           {answers.map((answer, index) => (answer === correctAnswer ? (
-            <button key={ answer } type="button" data-testid="correct-answer">
+            <button
+              key={ answer }
+              value={ answer }
+              type="button"
+              data-testid="correct-answer"
+              onClick={ this.handleClick }
+            >
               {answer}
             </button>
           ) : (
             <button
               key={ answer }
+              value={ answer }
               type="button"
               data-testid={ `wrong-answer-${index}` }
+              onClick={ this.handleClick }
             >
               {answer}
             </button>
           )))}
         </div>
+        {click && (
+          <button
+            name="next"
+            type="button"
+            data-testid="btn-next"
+            onClick={ this.handleClick }
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   }
