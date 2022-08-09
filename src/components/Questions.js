@@ -49,7 +49,7 @@ class Questions extends Component {
 
   setNewQuestion = () => {
     const { questionNumber, gameQuestions } = this.state;
-    const answers = this.setGameQuestions(gameQuestions[questionNumber]);
+    const answers = this.setGameAnswers(gameQuestions[questionNumber]);
     this.setState({
       questionDifficulty: gameQuestions[questionNumber].difficulty,
       gameCategory: gameQuestions[questionNumber].category,
@@ -67,11 +67,9 @@ class Questions extends Component {
     }
   };
 
-  secondsUpdate = (param) => {
-    this.setState({ seconds: param });
-  }
+  secondsUpdate = (param) => this.setState({ seconds: param });
 
-  setGameQuestions = (question) => {
+  setGameAnswers = (question) => {
     const { correct_answer: correct, incorrect_answers: incorrects } = question;
 
     // https://flaviocopes.com/how-to-shuffle-array-javascript/
@@ -83,11 +81,7 @@ class Questions extends Component {
     return questions;
   };
 
-  onTimeOut = () => {
-    this.setState({
-      btnIsDisable: true,
-    });
-  };
+  onTimeOut = () => this.setState({ btnIsDisable: true });
 
   handleClick = (event) => {
     const { name } = event.target;
@@ -124,7 +118,6 @@ class Questions extends Component {
       click,
       questionDifficulty,
     } = this.state;
-
     return (
       <div>
         <h2 data-testid="question-category">{gameCategory}</h2>
