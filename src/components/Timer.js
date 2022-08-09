@@ -20,7 +20,8 @@ class Timer extends Component {
   timerFunc = () => {
     this.intervalId = setInterval(() => {
       const { seconds } = this.state;
-      const { onTimeOut } = this.props;
+      const { onTimeOut, secondsUpdate } = this.props;
+      secondsUpdate(seconds);
       if (seconds === TIME_LIMIT) {
         clearInterval(this.intervalId);
         onTimeOut();
@@ -42,6 +43,7 @@ class Timer extends Component {
 
 Timer.propTypes = {
   onTimeOut: func.isRequired,
+  secondsUpdate: func.isRequired,
 };
 
 export default Timer;
