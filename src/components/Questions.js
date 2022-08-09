@@ -18,16 +18,23 @@ class Questions extends Component {
     this.setGame();
   }
 
-  handleClick = ({ target }) => {
-    this.setState({ click: true });
-    if (target.name === 'next') {
-      this.setState((pastState) => ({
-        questionNumber: pastState.questionNumber + 1,
-        click: false,
-      }),
-      () => this.setNewQuestion());
-    }
-  };
+  handleClick = () => this.setState({ click: true });
+
+  nextQuestion = () => {
+    const { questionNumber } = this.state;
+    const MAX_QUESTIONS = 4;
+    if (questionNumber === MAX_QUESTIONS) this.redirectToFeedback();
+    this.setState((pastState) => ({
+      questionNumber: pastState.questionNumber + 1,
+      click: false,
+    }),
+    () => this.setNewQuestion());
+  }
+
+  redirectToFeedback = () => {
+    const { history } = this.props;
+    history.push('/feedback');
+  }
 
   setGame = async () => {
     const token = getStorage('token');
@@ -108,7 +115,7 @@ class Questions extends Component {
             name="next"
             type="button"
             data-testid="btn-next"
-            onClick={ this.handleClick }
+            onClick={ this.nextQuestion }
           >
             Next
           </button>
