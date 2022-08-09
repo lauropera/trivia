@@ -2,6 +2,7 @@ import { func, shape } from 'prop-types';
 import React, { Component } from 'react';
 import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestTokenAPI';
+import Timer from './Timer';
 
 class Questions extends Component {
   state = {
@@ -11,6 +12,7 @@ class Questions extends Component {
     answers: [],
     questionName: '',
     correctAnswer: '',
+    btnIsDisable: false,
   };
 
   componentDidMount() {
@@ -53,12 +55,17 @@ class Questions extends Component {
     return questions;
   };
 
+  onTimeOut = () => {
+    this.setState({ btnIsDisable: true });
+  };
+
   render() {
     const {
       gameCategory,
       questionName,
       answers,
       correctAnswer,
+      btnIsDisable,
     } = this.state;
 
     return (
@@ -67,19 +74,26 @@ class Questions extends Component {
         <h4 data-testid="question-text">{questionName}</h4>
         <div data-testid="answer-options">
           {answers.map((answer, index) => (answer === correctAnswer ? (
-            <button key={ answer } type="button" data-testid="correct-answer">
+            <button
+              key={ answer }
+              type="button"
+              disabled={ btnIsDisable }
+              data-testid="correct-answer"
+            >
               {answer}
             </button>
           ) : (
             <button
               key={ answer }
               type="button"
+              disabled={ btnIsDisable }
               data-testid={ `wrong-answer-${index}` }
             >
               {answer}
             </button>
           )))}
         </div>
+        { questionName !== '' && <Timer onTimeOut={ this.onTimeOut } /> }
       </div>
     );
   }
