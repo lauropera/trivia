@@ -2,6 +2,7 @@ import { func, shape } from 'prop-types';
 import React, { Component } from 'react';
 import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestTokenAPI';
+import Timer from './Timer';
 import '../styles/QuestionsStyle.css';
 
 class Questions extends Component {
@@ -12,6 +13,7 @@ class Questions extends Component {
     questionNumber: 0,
     answers: [],
     correctAnswer: '',
+    btnIsDisable: false,
   };
 
   componentDidMount() {
@@ -67,12 +69,17 @@ class Questions extends Component {
     return questions;
   };
 
+  onTimeOut = () => {
+    this.setState({ btnIsDisable: true });
+  };
+
   render() {
     const {
       gameCategory,
       questionName,
       answers,
       correctAnswer,
+      btnIsDisable,
       click,
     } = this.state;
 
@@ -85,6 +92,7 @@ class Questions extends Component {
             <button
               key={ answer }
               type="button"
+              disabled={ btnIsDisable }
               data-testid="correct-answer"
               onClick={ this.handleClick }
               className={ click ? 'correct' : '' }
@@ -96,6 +104,7 @@ class Questions extends Component {
               key={ answer }
               onClick={ this.handleClick }
               type="button"
+              disabled={ btnIsDisable }
               data-testid={ `wrong-answer-${index}` }
               className={ click ? 'wrong' : '' }
             >
@@ -103,6 +112,7 @@ class Questions extends Component {
             </button>
           )))}
         </div>
+        { questionName !== '' && <Timer onTimeOut={ this.onTimeOut } /> }
         {click && (
           <button
             name="next"
