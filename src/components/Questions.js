@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestTokenAPI';
 import Timer from './Timer';
+import '../styles/QuestionsStyle.css';
 
 class Questions extends Component {
   state = {
-    gameCategory: '',
     gameQuestions: [],
+    gameCategory: '',
+    questionName: '',
     questionNumber: 0,
     answers: [],
-    questionName: '',
     correctAnswer: '',
     btnIsDisable: false,
   };
@@ -19,28 +20,41 @@ class Questions extends Component {
     this.setGame();
   }
 
+  handleClick = ({ target }) => {
+    this.setState({ click: true });
+    if (target.name === 'next') {
+      this.setState((pastState) => ({
+        questionNumber: pastState.questionNumber + 1,
+        click: false,
+      }),
+      () => this.setNewQuestion());
+    }
+  };
+
   setGame = async () => {
     const token = getStorage('token');
-    const { history } = this.props;
-    const { questionNumber } = this.state;
     const { results } = await fetchGame(token);
-    if (results.length === 0) {
+    this.validateQuestions(results);
+    this.setState({ gameQuestions: results }, () => this.setNewQuestion());
+  };
+
+  setNewQuestion = () => {
+    const { questionNumber, gameQuestions } = this.state;
+    const answers = this.setGameQuestions(gameQuestions[questionNumber]);
+    this.setState({
+      gameCategory: gameQuestions[questionNumber].category,
+      questionName: gameQuestions[questionNumber].question,
+      correctAnswer: gameQuestions[questionNumber].correct_answer,
+      answers,
+    });
+  };
+
+  validateQuestions = (questions) => {
+    const { history } = this.props;
+    if (questions.length === 0) {
       history.push('/');
       localStorage.clear();
     }
-    const answers = this.setGameQuestions(results[questionNumber]);
-
-    this.setState({
-      gameQuestions: results,
-      answers,
-    }, () => {
-      const { gameQuestions } = this.state;
-      this.setState({
-        gameCategory: gameQuestions[questionNumber].category,
-        questionName: gameQuestions[questionNumber].question,
-        correctAnswer: gameQuestions[questionNumber].correct_answer,
-      });
-    });
   };
 
   setGameQuestions = (question) => {
@@ -66,6 +80,7 @@ class Questions extends Component {
       answers,
       correctAnswer,
       btnIsDisable,
+      click,
     } = this.state;
 
     return (
@@ -79,21 +94,35 @@ class Questions extends Component {
               type="button"
               disabled={ btnIsDisable }
               data-testid="correct-answer"
+              onClick={ this.handleClick }
+              className={ click ? 'correct' : '' }
             >
               {answer}
             </button>
           ) : (
             <button
               key={ answer }
+              onClick={ this.handleClick }
               type="button"
               disabled={ btnIsDisable }
               data-testid={ `wrong-answer-${index}` }
+              className={ click ? 'wrong' : '' }
             >
               {answer}
             </button>
           )))}
         </div>
         { questionName !== '' && <Timer onTimeOut={ this.onTimeOut } /> }
+        {click && (
+          <button
+            name="next"
+            type="button"
+            data-testid="btn-next"
+            onClick={ this.handleClick }
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   }
