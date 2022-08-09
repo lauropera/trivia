@@ -2,6 +2,8 @@ import { ADD_PLAYER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
+  assertions: 0,
+  score: 0,
   gravatarEmail: '',
 };
 
