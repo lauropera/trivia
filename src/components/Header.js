@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { number, string } from 'prop-types';
-import md5 from 'crypto-js/md5';
+// import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import getPicture from '../helpers/defaultPicture';
 
 class Header extends Component {
   render() {
@@ -9,7 +10,7 @@ class Header extends Component {
     return (
       <header>
         <img
-          src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+          src={ getPicture(name, email) }
           alt={ name }
           data-testid="header-profile-picture"
         />
