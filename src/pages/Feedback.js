@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import FeedbackMessage from '../components/FeedbackMessage';
 import Header from '../components/Header';
 import Score from '../components/Score';
+import PlayAgainButton from '../components/PlayAgainButton';
+import RankingButton from '../components/RankingButton';
 import getPicture from '../helpers/defaultPicture';
 
 class Feedback extends Component {
@@ -28,6 +30,8 @@ class Feedback extends Component {
         <Header />
         <Score />
         <FeedbackMessage />
+        <PlayAgainButton { ...this.props } />
+        <RankingButton { ...this.props } />
       </div>
     );
   }

@@ -8,7 +8,7 @@ class Header extends Component {
   render() {
     const { email, name, score } = this.props;
     return (
-      <header>
+      <header className="header-game">
         <img
           src={ getPicture(name, email) }
           alt={ name }

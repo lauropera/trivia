@@ -1,3 +1,4 @@
+import { func, shape } from 'prop-types';
 import React, { Component } from 'react';
 import defaultPicture from '../helpers/defaultPicture';
 
@@ -16,9 +17,17 @@ class Ranking extends Component {
 
   render() {
     const { items } = this.state;
+    const { history } = this.props;
     return (
       <div>
-        <h1>Ranking</h1>
+        <h1 data-testid="ranking-title">Ranking</h1>
+        <button
+          type="button"
+          onClick={ () => history.push('/') }
+          data-testid="btn-go-home"
+        >
+          Home
+        </button>
         <table>
           <thead>
             <tr>
@@ -48,5 +57,9 @@ class Ranking extends Component {
     );
   }
 }
+
+Ranking.propTypes = {
+  history: shape({ push: func }).isRequired,
+};
 
 export default Ranking;
