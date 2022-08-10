@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addPlayer } from '../redux/actions';
 import { saveStorage } from '../services/localStorage';
 import SettingsButton from '../components/SettingsButton';
-import requestTokenAPI from '../services/requestTokenAPI';
+import { requestTokenAPI } from '../services/requestTokenAPI';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -56,10 +56,11 @@ class Login extends React.Component {
               data-testid="input-gravatar-email"
             />
           </label>
-          <label htmlFor="input-player-name">
+          <label htmlFor="input-name">
             Name
             <input
               name="name"
+              id="input-name"
               onChange={ this.handleChange }
               data-testid="input-player-name"
             />

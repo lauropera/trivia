@@ -3,6 +3,6 @@ export const saveStorage = (key, item) => {
 };
 
 export const getStorage = (key) => {
-  const data = JSON.parse(localStorage.getItem(key));
+  const data = localStorage.getItem(key);
   return data;
 };

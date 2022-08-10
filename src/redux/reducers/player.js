@@ -1,7 +1,9 @@
-import { ADD_PLAYER } from '../actions';
+import { ADD_PLAYER, ADD_CALC } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
+  assertions: 0,
+  score: 0,
   gravatarEmail: '',
 };
 
@@ -12,6 +14,12 @@ function player(state = INITIAL_STATE, action) {
       ...state,
       name: action.payload.name,
       gravatarEmail: action.payload.email,
+    };
+  case ADD_CALC:
+    return {
+      ...state,
+      score: action.payload,
+      assertions: state.assertions + 1,
     };
   default:
     return state;
