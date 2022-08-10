@@ -17,7 +17,7 @@ class Feedback extends Component {
       score,
       picture,
     };
-    if (name && score) {
+    if (name) {
       const items = JSON.parse(localStorage.getItem('ranking') || '[]');
       const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
       localStorage.setItem('ranking', JSON.stringify(itemsSorted));
