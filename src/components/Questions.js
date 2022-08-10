@@ -114,6 +114,7 @@ class Questions extends Component {
       const { seconds, click } = this.state;
       if (seconds === TIMER_LIMIT || click) {
         clearInterval(this.timerId);
+        this.setState({ btnIsDisable: true });
       } else {
         this.setState({ seconds: seconds - 1 });
       }
@@ -162,14 +163,12 @@ class Questions extends Component {
           </div>
           {`Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
           {click && (
-            <button
-              name="next"
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.nextQuestion }
-            >
-              Next
-            </button>
+            <Button
+              btnText="Next"
+              btnName="next"
+              btnDataId="btn-next"
+              btnClick={ this.nextQuestion }
+            />
           )}
         </div>
       )

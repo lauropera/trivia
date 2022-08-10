@@ -29,14 +29,15 @@ class Settings extends Component {
 
   render() {
     const { categories, isLoading } = this.state;
+    console.log(categories);
     return (
       <main>
+        <h2 data-testid="settings-title">Configurações</h2>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
           <>
-            <section>
-              <h2 data-testid="settings-title">Configurações</h2>
+            {/* <section>
               <label htmlFor="category">
                 Categoria
                 <select onChange={ this.setNewCategory } id="category">
@@ -45,7 +46,7 @@ class Settings extends Component {
                   ))}
                 </select>
               </label>
-            </section>
+            </section> */}
             <div>
               <Link to="/">Home</Link>
             </div>

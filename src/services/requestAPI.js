@@ -13,12 +13,11 @@ export const requestTokenAPI = async () => {
 
 export const fetchGame = async (
   token,
-  category = getStorage('category') || '',
-  difficulty = '',
-  type = '',
+  // category = getStorage('category') || '',
+  // difficulty = '',
+  // type = '',
 ) => {
-  const URL = `https://opentdb.com/api.php?amount=5&
-  category=${category}&difficulty=${difficulty}&type=${type}&token=${token}`;
+  const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
   try {
     const response = await fetch(URL);
     const data = await response.json();
