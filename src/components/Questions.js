@@ -1,42 +1,50 @@
-import { func, number, shape } from 'prop-types';
 import React, { Component } from 'react';
+import { func, number, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestTokenAPI';
 import { addCalc } from '../redux/actions';
+import Loading from './Loading';
 import '../styles/QuestionsStyle.css';
 
-const ONE_SECOND = 1000;
-const TIME_LIMIT = 0;
 const NUMBER_TEN = 10;
+const NUMBER_THREE = 3;
+const ONE_SECOND = 1000;
+const TIMER_LIMIT = 0;
+const INITIAL_STATE = {
+  gameQuestions: [],
+  gameCategory: '',
+  questionName: '',
+  questionNumber: 0,
+  answers: [],
+  correctAnswer: '',
+  btnIsDisable: false,
+  questionDifficulty: '',
+  seconds: 30,
+  click: false,
+  isLoading: false,
+};
 class Questions extends Component {
-  state = {
-    gameQuestions: [],
-    gameCategory: '',
-    questionName: '',
-    questionNumber: 0,
-    answers: [],
-    correctAnswer: '',
-    btnIsDisable: false,
-    questionDifficulty: '',
-    seconds: 30,
-    click: false,
-  };
+  state = { ...INITIAL_STATE };
 
   componentDidMount() {
-    this.setGame();
-    this.countDownTimer();
+    this.setState({
+      isLoading: true,
+    }, async () => {
+      await this.setGame();
+      this.countDownTimer();
+      this.setState({ isLoading: false });
+    });
   }
 
   nextQuestion = () => {
     const { questionNumber } = this.state;
     const MAX_QUESTIONS = 4;
     if (questionNumber === MAX_QUESTIONS) this.redirectToFeedback();
-    this.setState((pastState) => ({
-      questionNumber: pastState.questionNumber + 1,
+    this.setState({
+      questionNumber: questionNumber + 1,
       click: false,
-    }),
-    () => {
+    }, () => {
       this.setNewQuestion();
       clearInterval(this.timerId);
       this.setState({ seconds: 30, btnIsDisable: false });
@@ -90,36 +98,30 @@ class Questions extends Component {
   countDownTimer = () => {
     this.timerId = setInterval(() => {
       const { seconds, click } = this.state;
-      if (seconds === TIME_LIMIT || click) {
+      if (seconds === TIMER_LIMIT || click) {
         clearInterval(this.timerId);
-        this.setState({
-          btnIsDisable: true,
-          click: true,
-        });
+        this.setState({ btnIsDisable: true, click: true });
       } else {
-        this.setState(() => ({
-          seconds: seconds - 1 }));
+        this.setState(() => ({ seconds: seconds - 1 }));
       }
     }, ONE_SECOND);
-  }
+  };
 
   handleClick = (event) => {
     const { name } = event.target;
     this.setState({ click: true }, () => {
       const { questionDifficulty, seconds } = this.state;
-      const ten = 10;
-      const three = 3;
       const { score, addCalcDispatch } = this.props;
       if (name === 'correct') {
         switch (questionDifficulty) {
         case 'easy':
-          addCalcDispatch(score + ten + (seconds * 1));
+          addCalcDispatch(score + NUMBER_TEN + (seconds * 1));
           break;
         case 'medium':
-          addCalcDispatch(score + ten + (seconds * 2));
+          addCalcDispatch(score + NUMBER_TEN + (seconds * 2));
           break;
         case 'hard':
-          addCalcDispatch(score + ten + (seconds * three));
+          addCalcDispatch(score + NUMBER_TEN + (seconds * NUMBER_THREE));
           break;
         default:
           return questionDifficulty;
@@ -139,51 +141,53 @@ class Questions extends Component {
       click,
       questionDifficulty,
       seconds,
+      isLoading,
     } = this.state;
     return (
-      <div>
-        <h2 data-testid="question-category">{gameCategory}</h2>
-        <h4 data-testid="question-text">{questionName}</h4>
-        <h4>{questionDifficulty}</h4>
-        <div data-testid="answer-options">
-          {answers.map((answer, index) => (answer === correctAnswer ? (
+      isLoading ? <Loading /> : (
+        <div>
+          <h2 data-testid="question-category">{gameCategory}</h2>
+          <h4 data-testid="question-text">{questionName}</h4>
+          <h4>{`Difficulty: ${questionDifficulty}`}</h4>
+          <div data-testid="answer-options">
+            {answers.map((answer, index) => (answer === correctAnswer ? (
+              <button
+                key={ answer }
+                name="correct"
+                type="button"
+                disabled={ btnIsDisable }
+                data-testid="correct-answer"
+                onClick={ this.handleClick }
+                className={ click ? 'correct' : '' }
+              >
+                {answer}
+              </button>
+            ) : (
+              <button
+                key={ answer }
+                onClick={ this.handleClick }
+                type="button"
+                disabled={ btnIsDisable }
+                data-testid={ `wrong-answer-${index}` }
+                className={ click ? 'wrong' : '' }
+              >
+                {answer}
+              </button>
+            )))}
+          </div>
+          {`Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
+          {click && (
             <button
-              key={ answer }
-              name="correct"
+              name="next"
               type="button"
-              disabled={ btnIsDisable }
-              data-testid="correct-answer"
-              onClick={ this.handleClick }
-              className={ click ? 'correct' : '' }
+              data-testid="btn-next"
+              onClick={ this.nextQuestion }
             >
-              {answer}
+              Next
             </button>
-          ) : (
-            <button
-              key={ answer }
-              onClick={ this.handleClick }
-              type="button"
-              disabled={ btnIsDisable }
-              data-testid={ `wrong-answer-${index}` }
-              className={ click ? 'wrong' : '' }
-            >
-              {answer}
-            </button>
-          )))}
+          )}
         </div>
-        { questionName !== ''
-          && `Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
-        {click && (
-          <button
-            name="next"
-            type="button"
-            data-testid="btn-next"
-            onClick={ this.nextQuestion }
-          >
-            Next
-          </button>
-        )}
-      </div>
+      )
     );
   }
 }
