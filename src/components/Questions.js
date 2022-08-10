@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestTokenAPI';
-import Timer from './Timer';
 import { addCalc } from '../redux/actions';
 import '../styles/QuestionsStyle.css';
 
+const ONE_SECOND = 1000;
+const TIME_LIMIT = 0;
+const NUMBER_TEN = 10;
 class Questions extends Component {
   state = {
     gameQuestions: [],
@@ -18,10 +20,12 @@ class Questions extends Component {
     btnIsDisable: false,
     questionDifficulty: '',
     seconds: 30,
+    click: false,
   };
 
   componentDidMount() {
     this.setGame();
+    this.countDownTimer();
   }
 
   nextQuestion = () => {
@@ -32,7 +36,11 @@ class Questions extends Component {
       questionNumber: pastState.questionNumber + 1,
       click: false,
     }),
-    () => this.setNewQuestion());
+    () => {
+      this.setNewQuestion();
+      clearInterval(this.timerId);
+      this.setState({ seconds: 30, btnIsDisable: false });
+    });
   }
 
   redirectToFeedback = () => {
@@ -67,8 +75,6 @@ class Questions extends Component {
     }
   };
 
-  secondsUpdate = (param) => this.setState({ seconds: param });
-
   setGameAnswers = (question) => {
     const { correct_answer: correct, incorrect_answers: incorrects } = question;
 
@@ -81,7 +87,21 @@ class Questions extends Component {
     return questions;
   };
 
-  onTimeOut = () => this.setState({ btnIsDisable: true });
+  countDownTimer = () => {
+    this.timerId = setInterval(() => {
+      const { seconds, click } = this.state;
+      if (seconds === TIME_LIMIT || click) {
+        clearInterval(this.timerId);
+        this.setState({
+          btnIsDisable: true,
+          click: true,
+        });
+      } else {
+        this.setState(() => ({
+          seconds: seconds - 1 }));
+      }
+    }, ONE_SECOND);
+  }
 
   handleClick = (event) => {
     const { name } = event.target;
@@ -105,6 +125,7 @@ class Questions extends Component {
           return questionDifficulty;
         }
       }
+      this.countDownTimer();
     });
   }
 
@@ -117,6 +138,7 @@ class Questions extends Component {
       btnIsDisable,
       click,
       questionDifficulty,
+      seconds,
     } = this.state;
     return (
       <div>
@@ -149,10 +171,8 @@ class Questions extends Component {
             </button>
           )))}
         </div>
-        { questionName !== '' && <Timer
-          onTimeOut={ this.onTimeOut }
-          secondsUpdate={ this.secondsUpdate }
-        /> }
+        { questionName !== ''
+          && `Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
         {click && (
           <button
             name="next"
