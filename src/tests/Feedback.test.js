@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react'
 import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
+import Feedback from "../pages/Feedback";
 
 describe('Testes com a tela de Feedback', () => {
   beforeEach(() => window.localStorage.clear())
@@ -15,20 +16,17 @@ describe('Testes com a tela de Feedback', () => {
     expect(badFeedback).toBeInTheDocument();
   });
   it('Verifica se Well Done aparece na tela', () => {
-    const { history } = renderWithRouterAndRedux(<App />, {
-      player:{assertions: 3, name: '', score: 0, gravatarEmail: ''}
+    renderWithRouterAndRedux(<Feedback />, {
+      player:{assertions: 3, name: 'Aloha', score: 3, gravatarEmail: ''}
     })
-
-    history.push('/feedback')
 
     const goodFeedback = screen.getByText(/Well Done/i);
     expect(goodFeedback).toBeInTheDocument();
   });
   it('Verifica se os dados da pessoa aparecem na tela', () => {
-    const { history } = renderWithRouterAndRedux(<App />, {
+    renderWithRouterAndRedux(<Feedback />, {
       player:{assertions: 3, name: 'Daniel', score: 4, gravatarEmail: ''}
     })
-    history.push('/feedback')
 
     const name = screen.getByText(/Daniel/i);
     expect(name).toBeInTheDocument();
@@ -36,26 +34,25 @@ describe('Testes com a tela de Feedback', () => {
     expect(score[1]).toBeInTheDocument();
   });
   it('Verifica ordem do score', () => {
-    let { history } = renderWithRouterAndRedux(<App />, {
+    renderWithRouterAndRedux(<Feedback />, {
       player:{assertions: 1, name: 'Marcus', score: 2, gravatarEmail: ''}
     })
-
-    history.push('/feedback')
-    history.push('/')
+    const { history } = renderWithRouterAndRedux(<App />)
     const emailInput = screen.getByTestId('input-gravatar-email');
     userEvent.type(emailInput, 'teste@teste.com');
     const nameInput = screen.getByTestId('input-player-name');
-    userEvent.type(nameInput, 'Albert');
+    userEvent.type(nameInput, 'Lauro');
     const inputBtn = screen.getByTestId('btn-play');
-    
     userEvent.click(inputBtn);
+
     history.push('/feedback')
     history.push('/ranking')
 
-    const score1 = screen.getByText(/Marcus/i);
-    expect(score1).toBeInTheDocument();
-    const score2 = screen.getByText(/2/i);
-    expect(score2).toBeInTheDocument();
+    const marcus = screen.getByTestId('player-name-0');
+    expect(marcus).toBeInTheDocument();
+
+    const lauro = screen.getByTestId('player-name-1');
+    expect(lauro).toBeInTheDocument();
     
   });
   it('Testando o button Play Again', () => {
