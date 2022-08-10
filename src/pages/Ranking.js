@@ -6,6 +6,7 @@ class Ranking extends Component {
     const { history } = this.props;
     return (
       <div>
+        <h1 data-testid="ranking-title">Ranking</h1>
         <button
           type="button"
           onClick={ () => history.push('/') }
