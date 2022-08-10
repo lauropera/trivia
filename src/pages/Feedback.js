@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { func, number, shape, string } from 'prop-types';
 import FeedbackMessage from '../components/FeedbackMessage';
 import Header from '../components/Header';
 import Score from '../components/Score';
-import PlayAgainButton from '../components/PlayAgainButton';
-import RankingButton from '../components/RankingButton';
 import getPicture from '../helpers/defaultPicture';
+import Button from '../components/Button';
 
 class Feedback extends Component {
   async componentDidMount() {
@@ -25,22 +24,32 @@ class Feedback extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Header />
         <Score />
         <FeedbackMessage />
-        <PlayAgainButton { ...this.props } />
-        <RankingButton { ...this.props } />
+        <Button
+          btnText="Play Again"
+          btnClick={ () => history.push('/') }
+          btnDataId="btn-play-again"
+        />
+        <Button
+          btnText="Ranking"
+          btnClick={ () => history.push('/ranking') }
+          btnDataId="btn-ranking"
+        />
       </div>
     );
   }
 }
 
 Feedback.propTypes = {
-  name: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
-  gravatarEmail: PropTypes.string.isRequired,
+  name: string.isRequired,
+  score: number.isRequired,
+  gravatarEmail: string.isRequired,
+  history: shape({ push: func }).isRequired,
 };
 
 const mapStateToProps = (state) => ({

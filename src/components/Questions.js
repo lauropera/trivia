@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { func, number, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import { getStorage } from '../services/localStorage';
-import { fetchGame } from '../services/requestTokenAPI';
+import { fetchGame } from '../services/requestAPI';
 import { addCalc } from '../redux/actions';
+import Button from './Button';
 import Loading from './Loading';
 import '../styles/QuestionsStyle.css';
 
 const NUMBER_TEN = 10;
-const NUMBER_THREE = 3;
 const ONE_SECOND = 1000;
 const TIMER_LIMIT = 0;
 const INITIAL_STATE = {
@@ -18,49 +18,66 @@ const INITIAL_STATE = {
   questionNumber: 0,
   answers: [],
   correctAnswer: '',
-  btnIsDisable: false,
   questionDifficulty: '',
+  btnIsDisable: false,
   seconds: 30,
   click: false,
   isLoading: false,
 };
+
 class Questions extends Component {
   state = { ...INITIAL_STATE };
 
   componentDidMount() {
-    this.setState({
-      isLoading: true,
-    }, async () => {
-      await this.setGame();
-      this.countDownTimer();
-      this.setState({ isLoading: false });
-    });
+    this.setGame();
   }
+
+  handleClick = ({ target }) => {
+    const { name } = target;
+    this.setState({ btnIsDisable: true, click: true }, () => {
+      const { questionDifficulty } = this.state;
+      if (name === 'correct') this.calculateScore(questionDifficulty);
+      this.countDownTimer();
+    });
+  };
+
+  validateQuestions = (questions) => {
+    if (questions.length === 0) {
+      this.redirectTo('/');
+      localStorage.clear();
+    }
+  };
+
+  redirectTo = (route) => {
+    const { history } = this.props;
+    history.push(route);
+  };
+
+  setGame = async () => {
+    this.setState({ isLoading: true });
+    const { results } = await fetchGame(getStorage('token'));
+    this.validateQuestions(results);
+    this.setState({ gameQuestions: results });
+    this.setNewQuestion();
+    this.countDownTimer();
+    this.setState({ isLoading: false });
+  };
 
   nextQuestion = () => {
     const { questionNumber } = this.state;
-    const MAX_QUESTIONS = 4;
-    if (questionNumber === MAX_QUESTIONS) this.redirectToFeedback();
-    this.setState({
-      questionNumber: questionNumber + 1,
-      click: false,
-    }, () => {
-      this.setNewQuestion();
-      clearInterval(this.timerId);
-      this.setState({ seconds: 30, btnIsDisable: false });
-    });
-  }
-
-  redirectToFeedback = () => {
-    const { history } = this.props;
-    history.push('/feedback');
-  }
-
-  setGame = async () => {
-    const token = getStorage('token');
-    const { results } = await fetchGame(token);
-    this.validateQuestions(results);
-    this.setState({ gameQuestions: results }, () => this.setNewQuestion());
+    const MAX_QUESTIONS = 5;
+    if (questionNumber === MAX_QUESTIONS - 1) this.redirectTo('/feedback');
+    this.setState(
+      (pastState) => ({
+        questionNumber: pastState.questionNumber + 1,
+        click: false,
+      }),
+      () => {
+        this.setNewQuestion();
+        clearInterval(this.timerId);
+        this.setState({ seconds: 30, btnIsDisable: false });
+      },
+    );
   };
 
   setNewQuestion = () => {
@@ -75,24 +92,21 @@ class Questions extends Component {
     });
   };
 
-  validateQuestions = (questions) => {
-    const { history } = this.props;
-    if (questions.length === 0) {
-      history.push('/');
-      localStorage.clear();
-    }
-  };
-
   setGameAnswers = (question) => {
-    const { correct_answer: correct, incorrect_answers: incorrects } = question;
-
+    const { correct_answer: correct, incorrect_answers: wrongs } = question;
     // https://flaviocopes.com/how-to-shuffle-array-javascript/
     const VALUE_BETWEEN = 0.5;
-    const questions = [...incorrects, correct].sort(
-      () => Math.random() - VALUE_BETWEEN,
-    );
+    return [...wrongs, correct].sort(() => Math.random() - VALUE_BETWEEN);
+  };
 
-    return questions;
+  calculateScore = (difficulty) => {
+    const { seconds } = this.state;
+    const { score, addCalcDispatch } = this.props;
+    const TEN = 10;
+    const THREE = 3;
+    if (difficulty === 'easy') addCalcDispatch(score + TEN + seconds * 1);
+    if (difficulty === 'medium') addCalcDispatch(score + TEN + seconds * 2);
+    if (difficulty === 'hard') addCalcDispatch(score + TEN + seconds * THREE);
   };
 
   countDownTimer = () => {
@@ -100,36 +114,12 @@ class Questions extends Component {
       const { seconds, click } = this.state;
       if (seconds === TIMER_LIMIT || click) {
         clearInterval(this.timerId);
-        this.setState({ btnIsDisable: true, click: true });
+        this.setState({ btnIsDisable: true });
       } else {
-        this.setState(() => ({ seconds: seconds - 1 }));
+        this.setState({ seconds: seconds - 1 });
       }
     }, ONE_SECOND);
   };
-
-  handleClick = (event) => {
-    const { name } = event.target;
-    this.setState({ click: true }, () => {
-      const { questionDifficulty, seconds } = this.state;
-      const { score, addCalcDispatch } = this.props;
-      if (name === 'correct') {
-        switch (questionDifficulty) {
-        case 'easy':
-          addCalcDispatch(score + NUMBER_TEN + (seconds * 1));
-          break;
-        case 'medium':
-          addCalcDispatch(score + NUMBER_TEN + (seconds * 2));
-          break;
-        case 'hard':
-          addCalcDispatch(score + NUMBER_TEN + (seconds * NUMBER_THREE));
-          break;
-        default:
-          return questionDifficulty;
-        }
-      }
-      this.countDownTimer();
-    });
-  }
 
   render() {
     const {
@@ -151,40 +141,34 @@ class Questions extends Component {
           <h4>{`Difficulty: ${questionDifficulty}`}</h4>
           <div data-testid="answer-options">
             {answers.map((answer, index) => (answer === correctAnswer ? (
-              <button
+              <Button
                 key={ answer }
-                name="correct"
-                type="button"
-                disabled={ btnIsDisable }
-                data-testid="correct-answer"
-                onClick={ this.handleClick }
-                className={ click ? 'correct' : '' }
-              >
-                {answer}
-              </button>
+                btnText={ answer }
+                btnName="correct"
+                btnClass={ click ? 'correct' : '' }
+                btnDisabled={ btnIsDisable }
+                btnDataId="correct-answer"
+                btnClick={ this.handleClick }
+              />
             ) : (
-              <button
+              <Button
                 key={ answer }
-                onClick={ this.handleClick }
-                type="button"
-                disabled={ btnIsDisable }
-                data-testid={ `wrong-answer-${index}` }
-                className={ click ? 'wrong' : '' }
-              >
-                {answer}
-              </button>
+                btnText={ answer }
+                btnClass={ click ? 'wrong' : '' }
+                btnDisabled={ btnIsDisable }
+                btnDataId={ `wrong-answer-${index}` }
+                btnClick={ this.handleClick }
+              />
             )))}
           </div>
           {`Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
           {click && (
-            <button
-              name="next"
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.nextQuestion }
-            >
-              Next
-            </button>
+            <Button
+              btnText="Next"
+              btnName="next"
+              btnDataId="btn-next"
+              btnClick={ this.nextQuestion }
+            />
           )}
         </div>
       )
@@ -193,16 +177,12 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-  history: shape({
-    push: func,
-  }).isRequired,
+  history: shape({ push: func }).isRequired,
   addCalcDispatch: func.isRequired,
   score: number.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  score: state.player.score,
-});
+const mapStateToProps = (state) => ({ score: state.player.score });
 
 const mapDispatchToProps = (dispatch) => ({
   addCalcDispatch: (calc) => dispatch(addCalc(calc)),

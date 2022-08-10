@@ -1,5 +1,6 @@
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const ADD_CALC = 'ADD_CALC';
+export const NEW_CATEGORY = 'NEW_CATEGORY';
 export const RESET_PLAYER = 'RESET_PLAYER';
 
 export const addPlayer = (payload) => ({
@@ -9,6 +10,11 @@ export const addPlayer = (payload) => ({
 
 export const addCalc = (payload) => ({
   type: ADD_CALC,
+  payload,
+});
+
+export const changeCategory = (payload) => ({
+  type: NEW_CATEGORY,
   payload,
 });
 

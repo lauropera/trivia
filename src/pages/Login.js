@@ -3,8 +3,8 @@ import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import { addPlayer, resetPlayer } from '../redux/actions';
 import { saveStorage } from '../services/localStorage';
-import SettingsButton from '../components/SettingsButton';
-import { requestTokenAPI } from '../services/requestTokenAPI';
+import Button from '../components/Button';
+import { requestTokenAPI } from '../services/requestAPI';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -45,6 +45,7 @@ class Login extends React.Component {
   };
 
   render() {
+    const { history } = this.props;
     const { isSaveButtonDisabled } = this.state;
     return (
       <div className="App">
@@ -70,18 +71,18 @@ class Login extends React.Component {
               data-testid="input-player-name"
             />
           </label>
-          <button
-            data-testid="btn-play"
-            onClick={ this.handleClick }
-            type="submit"
-            disabled={ isSaveButtonDisabled }
-          >
-            {' '}
-            Play
-            {' '}
-          </button>
+          <Button
+            btnText="Play"
+            btnDataId="btn-play"
+            btnDisabled={ isSaveButtonDisabled }
+            btnClick={ this.handleClick }
+          />
         </form>
-        <SettingsButton />
+        <Button
+          btnText="Configurações"
+          btnDataId="btn-settings"
+          btnClick={ () => history.push('/settings') }
+        />
       </div>
     );
   }
