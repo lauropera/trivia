@@ -5,21 +5,28 @@ import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestAPI';
 import { addCalc } from '../redux/actions';
 import Button from './Button';
-import Timer from './Timer';
+import Loading from './Loading';
 import '../styles/QuestionsStyle.css';
 
+const NUMBER_TEN = 10;
+const ONE_SECOND = 1000;
+const TIMER_LIMIT = 0;
+const INITIAL_STATE = {
+  gameQuestions: [],
+  gameCategory: '',
+  questionName: '',
+  questionNumber: 0,
+  answers: [],
+  correctAnswer: '',
+  questionDifficulty: '',
+  btnIsDisable: false,
+  seconds: 30,
+  click: false,
+  isLoading: false,
+};
+
 class Questions extends Component {
-  state = {
-    gameQuestions: [],
-    gameCategory: '',
-    questionName: '',
-    questionNumber: 0,
-    questionDifficulty: '',
-    answers: [],
-    correctAnswer: '',
-    btnIsDisable: false,
-    seconds: 30,
-  };
+  state = { ...INITIAL_STATE };
 
   componentDidMount() {
     this.setGame();
@@ -27,42 +34,49 @@ class Questions extends Component {
 
   handleClick = ({ target }) => {
     const { name } = target;
-    this.setState({ click: true }, () => {
+    this.setState({ btnIsDisable: true, click: true }, () => {
       const { questionDifficulty } = this.state;
       if (name === 'correct') this.calculateScore(questionDifficulty);
+      this.countDownTimer();
     });
   };
 
   validateQuestions = (questions) => {
-    const { history } = this.props;
     if (questions.length === 0) {
-      history.push('/');
+      this.redirectTo('/');
       localStorage.clear();
     }
   };
 
-  redirectToFeedback = () => {
+  redirectTo = (route) => {
     const { history } = this.props;
-    history.push('/feedback');
+    history.push(route);
   };
 
   setGame = async () => {
-    const token = getStorage('token');
-    const { results } = await fetchGame(token);
+    this.setState({ isLoading: true });
+    const { results } = await fetchGame(getStorage('token'));
     this.validateQuestions(results);
-    this.setState({ gameQuestions: results }, () => this.setNewQuestion());
+    this.setState({ gameQuestions: results });
+    this.setNewQuestion();
+    this.countDownTimer();
+    this.setState({ isLoading: false });
   };
 
   nextQuestion = () => {
     const { questionNumber } = this.state;
     const MAX_QUESTIONS = 5;
-    if (questionNumber === MAX_QUESTIONS - 1) this.redirectToFeedback();
+    if (questionNumber === MAX_QUESTIONS - 1) this.redirectTo('/feedback');
     this.setState(
       (pastState) => ({
         questionNumber: pastState.questionNumber + 1,
         click: false,
       }),
-      () => this.setNewQuestion(),
+      () => {
+        this.setNewQuestion();
+        clearInterval(this.timerId);
+        this.setState({ seconds: 30, btnIsDisable: false });
+      },
     );
   };
 
@@ -95,9 +109,16 @@ class Questions extends Component {
     if (difficulty === 'hard') addCalcDispatch(score + TEN + seconds * THREE);
   };
 
-  secondsUpdate = (param) => this.setState({ seconds: param });
-
-  onTimeOut = () => this.setState({ btnIsDisable: true });
+  countDownTimer = () => {
+    this.timerId = setInterval(() => {
+      const { seconds, click } = this.state;
+      if (seconds === TIMER_LIMIT || click) {
+        clearInterval(this.timerId);
+      } else {
+        this.setState({ seconds: seconds - 1 });
+      }
+    }, ONE_SECOND);
+  };
 
   render() {
     const {
@@ -108,49 +129,50 @@ class Questions extends Component {
       btnIsDisable,
       click,
       questionDifficulty,
+      seconds,
+      isLoading,
     } = this.state;
     return (
-      <div>
-        <h2 data-testid="question-category">{gameCategory}</h2>
-        <h4 data-testid="question-text">{questionName}</h4>
-        <h4>{questionDifficulty}</h4>
-        <div data-testid="answer-options">
-          {answers.map((answer, index) => (answer === correctAnswer ? (
-            <Button
-              key={ answer }
-              btnText={ answer }
-              btnName="correct"
-              btnClass={ click ? 'correct' : '' }
-              btnDisabled={ btnIsDisable }
-              btnDataId="correct-answer"
-              btnClick={ this.handleClick }
-            />
-          ) : (
-            <Button
-              key={ answer }
-              btnText={ answer }
-              btnClass={ click ? 'wrong' : '' }
-              btnDisabled={ btnIsDisable }
-              btnDataId={ `wrong-answer-${index}` }
-              btnClick={ this.handleClick }
-            />
-          )))}
+      isLoading ? <Loading /> : (
+        <div>
+          <h2 data-testid="question-category">{gameCategory}</h2>
+          <h4 data-testid="question-text">{questionName}</h4>
+          <h4>{`Difficulty: ${questionDifficulty}`}</h4>
+          <div data-testid="answer-options">
+            {answers.map((answer, index) => (answer === correctAnswer ? (
+              <Button
+                key={ answer }
+                btnText={ answer }
+                btnName="correct"
+                btnClass={ click ? 'correct' : '' }
+                btnDisabled={ btnIsDisable }
+                btnDataId="correct-answer"
+                btnClick={ this.handleClick }
+              />
+            ) : (
+              <Button
+                key={ answer }
+                btnText={ answer }
+                btnClass={ click ? 'wrong' : '' }
+                btnDisabled={ btnIsDisable }
+                btnDataId={ `wrong-answer-${index}` }
+                btnClick={ this.handleClick }
+              />
+            )))}
+          </div>
+          {`Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
+          {click && (
+            <button
+              name="next"
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.nextQuestion }
+            >
+              Next
+            </button>
+          )}
         </div>
-        {questionName !== '' && (
-          <Timer
-            onTimeOut={ this.onTimeOut }
-            secondsUpdate={ this.secondsUpdate }
-          />
-        )}
-        {click && (
-          <Button
-            btnText="Next"
-            btnName="next"
-            btnDataId="btn-next"
-            btnClick={ this.nextQuestion }
-          />
-        )}
-      </div>
+      )
     );
   }
 }
