@@ -7,7 +7,7 @@ class Header extends Component {
   render() {
     const { email, name, score } = this.props;
     return (
-      <header>
+      <header className="header-game">
         <img
           src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
           alt={ name }
