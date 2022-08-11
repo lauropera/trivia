@@ -1,8 +1,8 @@
-import React from "react";
-import { screen } from '@testing-library/react'
-import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux";
-import userEvent from "@testing-library/user-event";
-import App from "../App";
+import React from 'react';
+import { screen } from '@testing-library/react';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import userEvent from '@testing-library/user-event';
+import App from '../App';
 
 describe('Testes da página de ranking', () => {
   it('Verifica se quando clicar no botão home leva para pagina principal', () => {
@@ -16,4 +16,4 @@ describe('Testes da página de ranking', () => {
     const { pathname } = history.location;
     expect(pathname).toBe('/');
   });
-})
+});
