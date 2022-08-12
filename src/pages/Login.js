@@ -15,11 +15,6 @@ class Login extends React.Component {
     isSaveButtonDisabled: true,
   };
 
-  componentDidMount() {
-    const { resetPlayerDispatch } = this.props;
-    resetPlayerDispatch();
-  }
-
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value }, () => this.buttonChange());
@@ -36,8 +31,9 @@ class Login extends React.Component {
 
   handleClick = async (event) => {
     event.preventDefault();
+    const { resetPlayerDispatch, addPlayerDispatch, history } = this.props;
+    resetPlayerDispatch();
     const { name, email } = this.state;
-    const { addPlayerDispatch, history } = this.props;
     addPlayerDispatch({ name, email });
     const token = await requestTokenAPI();
     saveStorage('token', token);

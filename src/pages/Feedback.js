@@ -6,9 +6,10 @@ import Header from '../components/Header';
 import Score from '../components/Score';
 import getPicture from '../helpers/defaultPicture';
 import Button from '../components/Button';
+import { resetPlayer } from '../redux/actions';
 
 class Feedback extends Component {
-  async componentDidMount() {
+  componentDidMount() {
     const { name, score, gravatarEmail } = this.props;
     const picture = getPicture(name, gravatarEmail);
     const data = {
@@ -23,8 +24,13 @@ class Feedback extends Component {
     }
   }
 
+  handleClick = (route) => {
+    const { history, resetPlayerDispatch } = this.props;
+    if (route === '/') resetPlayerDispatch();
+    history.push(route);
+  }
+
   render() {
-    const { history } = this.props;
     return (
       <div>
         <Header />
@@ -32,12 +38,12 @@ class Feedback extends Component {
         <FeedbackMessage />
         <Button
           btnText="Play Again"
-          btnClick={ () => history.push('/') }
+          btnClick={ () => this.handleClick('/') }
           btnDataId="btn-play-again"
         />
         <Button
           btnText="Ranking"
-          btnClick={ () => history.push('/ranking') }
+          btnClick={ () => this.handleClick('/ranking') }
           btnDataId="btn-ranking"
         />
       </div>
@@ -45,17 +51,22 @@ class Feedback extends Component {
   }
 }
 
-Feedback.propTypes = {
-  name: string.isRequired,
-  score: number.isRequired,
-  gravatarEmail: string.isRequired,
-  history: shape({ push: func }).isRequired,
-};
-
 const mapStateToProps = (state) => ({
   name: state.player.name,
   score: state.player.score,
   gravatarEmail: state.player.gravatarEmail,
 });
 
-export default connect(mapStateToProps)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  resetPlayerDispatch: () => dispatch(resetPlayer()),
+});
+
+Feedback.propTypes = {
+  name: string.isRequired,
+  score: number.isRequired,
+  gravatarEmail: string.isRequired,
+  history: shape({ push: func }).isRequired,
+  resetPlayerDispatch: func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

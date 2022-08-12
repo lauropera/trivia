@@ -1,7 +1,7 @@
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const ADD_CALC = 'ADD_CALC';
 export const NEW_CATEGORY = 'NEW_CATEGORY';
-export const RESET_PLAYER = 'RESET_PLAYER';
+export const RESET_OLD_PLAYER = 'RESET_OLD_PLAYER';
 
 export const addPlayer = (payload) => ({
   type: ADD_PLAYER,
@@ -19,5 +19,5 @@ export const changeCategory = (payload) => ({
 });
 
 export const resetPlayer = () => ({
-  type: RESET_PLAYER,
+  type: RESET_OLD_PLAYER,
 });
