@@ -1,7 +1,6 @@
 import { func, shape } from 'prop-types';
 import React, { Component } from 'react';
 import defaultPicture from '../helpers/defaultPicture';
-import Button from '../components/Button';
 
 class Ranking extends Component {
   constructor() {
@@ -22,11 +21,13 @@ class Ranking extends Component {
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-        <Button
-          btnText="Home"
-          btnClick={ () => history.push('/') }
-          btnDataId="btn-go-home"
-        />
+        <button
+          type="button"
+          data-testid="btn-go-home"
+          onClick={ () => history.push('/') }
+        >
+          Home
+        </button>
         <table>
           <thead>
             <tr>

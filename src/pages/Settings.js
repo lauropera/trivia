@@ -1,43 +1,43 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { saveStorage } from '../services/localStorage';
-import { fetchCategories } from '../services/requestAPI';
+// import { saveStorage } from '../services/localStorage';
+// import { fetchCategories } from '../services/requestAPI';
 
 class Settings extends Component {
-  state = {
-    categories: [],
-    isLoading: false,
-  };
+  // state = {
+  //   categories: [],
+  //   isLoading: false,
+  // };
 
-  componentDidMount() {
-    this.getCategoriesList();
-  }
+  // componentDidMount() {
+  //   this.getCategoriesList();
+  // }
 
-  getCategoriesList = async () => {
-    this.setState({ isLoading: true });
-    this.setState({
-      categories: await fetchCategories(),
-      isLoading: false,
-    });
-  };
+  // getCategoriesList = async () => {
+  //   this.setState({ isLoading: true });
+  //   this.setState({
+  //     categories: await fetchCategories(),
+  //     isLoading: false,
+  //   });
+  // };
 
-  setNewCategory = ({ target }) => {
-    const { categories } = this.state;
-    const { id } = categories.find(({ name }) => name === target.value);
-    saveStorage(target.id, id);
-  };
+  // setNewCategory = ({ target }) => {
+  //   const { categories } = this.state;
+  //   const { id } = categories.find(({ name }) => name === target.value);
+  //   saveStorage(target.id, id);
+  // };
 
   render() {
-    const { categories, isLoading } = this.state;
-    console.log(categories);
+    // const { categories, isLoading } = this.state;
+    // console.log(categories);
     return (
       <main>
         <h2 data-testid="settings-title">Configurações</h2>
-        {isLoading ? (
+        {/* {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <>
-            {/* <section>
+          <> */}
+        {/* <section>
               <label htmlFor="category">
                 Categoria
                 <select onChange={ this.setNewCategory } id="category">
@@ -47,11 +47,11 @@ class Settings extends Component {
                 </select>
               </label>
             </section> */}
-            <div>
-              <Link to="/">Home</Link>
-            </div>
-          </>
-        )}
+        <div>
+          <Link to="/">Home</Link>
+        </div>
+        {/* </>
+        )} */}
       </main>
     );
   }

@@ -1,19 +1,21 @@
-import React from "react";
-import { screen } from '@testing-library/react'
-import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux";
-import userEvent from "@testing-library/user-event";
-import App from "../App";
+import React from 'react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import token from './mocks/tokenMock';
+import questions from './mocks/questionsMock';
+import App from '../App';
 
 describe('Testes com a tela de Login', () => {
   it('Verifica se a logo do jogo Trivia aparece na tela', () => {
-    renderWithRouterAndRedux(<App />)
+    renderWithRouterAndRedux(<App />);
 
-    const triviaLogoEl = screen.getByRole('img', {name: 'logo'});
+    const triviaLogoEl = screen.getByRole('img', { name: 'logo' });
     expect(triviaLogoEl).toBeInTheDocument();
   });
 
   it('Verifica se o formulário de Login aparece na tela', () => {
-    renderWithRouterAndRedux(<App />)
+    renderWithRouterAndRedux(<App />);
 
     const emailInput = screen.getByTestId('input-gravatar-email');
     expect(emailInput).toBeInTheDocument();
@@ -26,14 +28,19 @@ describe('Testes com a tela de Login', () => {
   });
 
   it('Verifica se o botão do formulário inicia desativado', () => {
-    renderWithRouterAndRedux(<App />)
+    renderWithRouterAndRedux(<App />);
 
     const inputBtn = screen.getByTestId('btn-play');
     expect(inputBtn).toBeDisabled();
   });
 
   it('Verifica se o botão é ativado ao preencher o formulário e ao clicar é enviado para página de game', async () => {
-    const { history } = renderWithRouterAndRedux(<App/>)
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(token),
+    });
+
+    const { history } = renderWithRouterAndRedux(<App />);
 
     const emailInput = screen.getByTestId('input-gravatar-email');
     expect(emailInput).toHaveValue('');
@@ -49,32 +56,41 @@ describe('Testes com a tela de Login', () => {
 
     const inputBtn = screen.getByTestId('btn-play');
     expect(inputBtn).toBeEnabled();
-    
+
     userEvent.click(inputBtn);
-    
+
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(questions),
+    });
+
     const profileName = await screen.findByTestId('header-player-name');
     expect(profileName).toBeInTheDocument();
-    
-    const { location: { pathname } } = history;
+
+    const {
+      location: { pathname },
+    } = history;
     expect(pathname).toBe('/game');
   });
 
   it('Verifica se o botão de configurações aparece na tela', () => {
-    renderWithRouterAndRedux(<App />)
-    
+    renderWithRouterAndRedux(<App />);
+
     const configBtn = screen.getByRole('button', { name: /configurações/i });
     expect(configBtn).toBeInTheDocument();
   });
 
   it('Verifica se ao clicar no botão de configurações é redirecionado para página de configurações', () => {
-    const { history } = renderWithRouterAndRedux(<App />)
-    
+    const { history } = renderWithRouterAndRedux(<App />);
+
     const configBtn = screen.getByRole('button', { name: /configurações/i });
     expect(configBtn).toBeInTheDocument();
 
     userEvent.click(configBtn);
 
-    const { location: { pathname } } = history;
+    const {
+      location: { pathname },
+    } = history;
     expect(pathname).toBe('/settings');
   });
 });

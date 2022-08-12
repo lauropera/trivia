@@ -1,4 +1,4 @@
-import { ADD_PLAYER, ADD_CALC, RESET_PLAYER } from '../actions';
+import { ADD_PLAYER, ADD_CALC, RESET_OLD_PLAYER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -21,8 +21,14 @@ function player(state = INITIAL_STATE, action) {
       score: action.payload,
       assertions: state.assertions + 1,
     };
-  case RESET_PLAYER:
-    return INITIAL_STATE;
+  case RESET_OLD_PLAYER:
+    return {
+      ...state,
+      name: '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: '',
+    };
   default:
     return state;
   }

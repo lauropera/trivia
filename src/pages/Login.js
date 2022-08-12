@@ -3,7 +3,6 @@ import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import { addPlayer, resetPlayer } from '../redux/actions';
 import { saveStorage } from '../services/localStorage';
-import Button from '../components/Button';
 import { requestTokenAPI } from '../services/requestAPI';
 import logo from '../trivia.png';
 import '../App.css';
@@ -14,11 +13,6 @@ class Login extends React.Component {
     email: '',
     isSaveButtonDisabled: true,
   };
-
-  componentDidMount() {
-    const { resetPlayerDispatch } = this.props;
-    resetPlayerDispatch();
-  }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -36,10 +30,11 @@ class Login extends React.Component {
 
   handleClick = async (event) => {
     event.preventDefault();
-    const { name, email } = this.state;
-    const { addPlayerDispatch, history } = this.props;
-    addPlayerDispatch({ name, email });
     const token = await requestTokenAPI();
+    const { resetPlayerDispatch, addPlayerDispatch, history } = this.props;
+    resetPlayerDispatch();
+    const { name, email } = this.state;
+    addPlayerDispatch({ name, email });
     saveStorage('token', token);
     history.push('/game');
   };
@@ -54,10 +49,11 @@ class Login extends React.Component {
           <p>SUA VEZ</p>
         </header>
         <form>
-          <label htmlFor="input-gravatar-email">
+          <label htmlFor="input-email">
             Email
             <input
               name="email"
+              id="input-email"
               onChange={ this.handleChange }
               data-testid="input-gravatar-email"
             />
@@ -71,18 +67,22 @@ class Login extends React.Component {
               data-testid="input-player-name"
             />
           </label>
-          <Button
-            btnText="Play"
-            btnDataId="btn-play"
-            btnDisabled={ isSaveButtonDisabled }
-            btnClick={ this.handleClick }
-          />
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ isSaveButtonDisabled }
+            onClick={ this.handleClick }
+          >
+            Play
+          </button>
         </form>
-        <Button
-          btnText="Configurações"
-          btnDataId="btn-settings"
-          btnClick={ () => history.push('/settings') }
-        />
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
       </div>
     );
   }
