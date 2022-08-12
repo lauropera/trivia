@@ -31,11 +31,11 @@ class Login extends React.Component {
 
   handleClick = async (event) => {
     event.preventDefault();
+    const token = await requestTokenAPI();
     const { resetPlayerDispatch, addPlayerDispatch, history } = this.props;
     resetPlayerDispatch();
     const { name, email } = this.state;
     addPlayerDispatch({ name, email });
-    const token = await requestTokenAPI();
     saveStorage('token', token);
     history.push('/game');
   };
@@ -50,10 +50,11 @@ class Login extends React.Component {
           <p>SUA VEZ</p>
         </header>
         <form>
-          <label htmlFor="input-gravatar-email">
+          <label htmlFor="input-email">
             Email
             <input
               name="email"
+              id="input-email"
               onChange={ this.handleChange }
               data-testid="input-gravatar-email"
             />

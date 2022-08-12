@@ -22,7 +22,13 @@ function player(state = INITIAL_STATE, action) {
       assertions: state.assertions + 1,
     };
   case RESET_OLD_PLAYER:
-    return INITIAL_STATE;
+    return {
+      ...state,
+      name: '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: '',
+    };
   default:
     return state;
   }

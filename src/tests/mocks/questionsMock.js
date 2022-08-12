@@ -1,4 +1,4 @@
-const questionMock = {
+const questions = {
   "response_code": 0,
   "results": [
     {
@@ -64,4 +64,4 @@ const questionMock = {
   ]
   }
 
-export default questionMock;
+export default questions;
