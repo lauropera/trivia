@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { func, number, shape, string } from 'prop-types';
-import FeedbackMessage from '../components/FeedbackMessage';
+import { resetPlayer } from '../redux/actions';
+import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
-import getPicture from '../helpers/defaultPicture';
+import FeedbackMessage from '../components/FeedbackMessage';
 import Button from '../components/Button';
-import { resetPlayer } from '../redux/actions';
 
 class Feedback extends Component {
   componentDidMount() {
+    this.saveUserScore();
+  }
+
+  saveUserScore = () => {
     const { name, score, gravatarEmail } = this.props;
     const picture = getPicture(name, gravatarEmail);
     const data = {

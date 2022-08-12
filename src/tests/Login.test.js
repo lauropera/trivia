@@ -1,7 +1,9 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import token from './mocks/tokenMock';
+import questions from './mocks/questionsMock';
 import App from '../App';
 
 describe('Testes com a tela de Login', () => {
@@ -33,6 +35,11 @@ describe('Testes com a tela de Login', () => {
   });
 
   it('Verifica se o botão é ativado ao preencher o formulário e ao clicar é enviado para página de game', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(token),
+    });
+
     const { history } = renderWithRouterAndRedux(<App />);
 
     const emailInput = screen.getByTestId('input-gravatar-email');
@@ -51,6 +58,11 @@ describe('Testes com a tela de Login', () => {
     expect(inputBtn).toBeEnabled();
 
     userEvent.click(inputBtn);
+
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(questions),
+    });
 
     const profileName = await screen.findByTestId('header-player-name');
     expect(profileName).toBeInTheDocument();

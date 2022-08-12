@@ -7,7 +7,7 @@ import emptyQuestions from './mocks/emptyQuestionsMock';
 import invalidToken from './mocks/invalidTokenMock';
 import App from '../App';
 
-describe('Testes da página de ranking', () => {
+describe('Testes com a tela de Game', () => {
   afterEach(() => jest.restoreAllMocks());
 
   it('Redireciona aos feedbacks caso respondido todas as perguntas ', async () => {
