@@ -2,9 +2,10 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import invalidToken from './mocks/invalidTokenMock';
+import token from './mocks/tokenMock';
 import questions from './mocks/questionsMock';
 import emptyQuestions from './mocks/emptyQuestionsMock';
-import invalidToken from './mocks/invalidTokenMock';
 import App from '../App';
 
 describe('Testes com a tela de Game', () => {
@@ -48,19 +49,34 @@ describe('Testes com a tela de Game', () => {
     userEvent.type(emailInput, 'teste@teste.com');
     userEvent.type(nameInput, 'Albert');
     userEvent.click(playBtn);
-    
+
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(emptyQuestions),
     });
-    
-    URL = 'https://opentdb.com/api.php?amount=5&token=hue'
+
+    URL = 'https://opentdb.com/api.php?amount=5&token=hue';
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));
-    
+
     const { pathname } = history.location;
-    emailInput = screen.getByTestId('input-gravatar-email')
+    emailInput = screen.getByTestId('input-gravatar-email');
 
     expect(pathname).toBe('/');
-    expect(emailInput).toHaveValue('')
+    expect(emailInput).toHaveValue('');
   });
+
+  it('Testa se o botão é desativado após 30 segundos sem responder a pergunta', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(questions),
+    });
+
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/game');
+
+    await waitFor(
+      () => expect(screen.getByTestId('correct-answer')).toBeDisabled(),
+      { timeout: 35000 }
+    );
+  }, 40000);
 });

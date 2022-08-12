@@ -25,11 +25,7 @@ describe('Testes com a tela de Ranking', () => {
   });
 
   it('Verifica se a ordem do score é decrescente aos pontos', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(token),
-    });
-
+    
     const { history } = renderWithRouterAndRedux(<App />, {
       player: {
         name: 'Marcus',
@@ -39,6 +35,11 @@ describe('Testes com a tela de Ranking', () => {
       },
     });
     history.push('/feedback');
+    
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(token),
+    });
 
     const playAgainBtn = screen.getByTestId('btn-play-again');
     userEvent.click(playAgainBtn);

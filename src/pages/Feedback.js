@@ -6,7 +6,6 @@ import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
 import FeedbackMessage from '../components/FeedbackMessage';
-import Button from '../components/Button';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -26,13 +25,13 @@ class Feedback extends Component {
       const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
       localStorage.setItem('ranking', JSON.stringify(itemsSorted));
     }
-  }
+  };
 
   handleClick = (route) => {
     const { history, resetPlayerDispatch } = this.props;
     if (route === '/') resetPlayerDispatch();
     history.push(route);
-  }
+  };
 
   render() {
     return (
@@ -40,16 +39,20 @@ class Feedback extends Component {
         <Header />
         <Score />
         <FeedbackMessage />
-        <Button
-          btnText="Play Again"
-          btnClick={ () => this.handleClick('/') }
-          btnDataId="btn-play-again"
-        />
-        <Button
-          btnText="Ranking"
-          btnClick={ () => this.handleClick('/ranking') }
-          btnDataId="btn-ranking"
-        />
+        <button
+          type="button"
+          onClick={ () => this.handleClick('/') }
+          data-testid="btn-play-again"
+        >
+          Play again
+        </button>
+        <button
+          type="button"
+          onClick={ () => this.handleClick('/ranking') }
+          data-testid="btn-ranking"
+        >
+          Ranking
+        </button>
       </div>
     );
   }

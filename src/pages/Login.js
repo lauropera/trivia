@@ -3,7 +3,6 @@ import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import { addPlayer, resetPlayer } from '../redux/actions';
 import { saveStorage } from '../services/localStorage';
-import Button from '../components/Button';
 import { requestTokenAPI } from '../services/requestAPI';
 import logo from '../trivia.png';
 import '../App.css';
@@ -68,18 +67,22 @@ class Login extends React.Component {
               data-testid="input-player-name"
             />
           </label>
-          <Button
-            btnText="Play"
-            btnDataId="btn-play"
-            btnDisabled={ isSaveButtonDisabled }
-            btnClick={ this.handleClick }
-          />
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ isSaveButtonDisabled }
+            onClick={ this.handleClick }
+          >
+            Play
+          </button>
         </form>
-        <Button
-          btnText="Configurações"
-          btnDataId="btn-settings"
-          btnClick={ () => history.push('/settings') }
-        />
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
       </div>
     );
   }

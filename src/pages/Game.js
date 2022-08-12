@@ -5,7 +5,6 @@ import { getStorage } from '../services/localStorage';
 import { fetchGame } from '../services/requestAPI';
 import { addCalc } from '../redux/actions';
 import Header from '../components/Header';
-import Button from '../components/Button';
 import Loading from '../components/Loading';
 import '../styles/QuestionsStyle.css';
 
@@ -31,6 +30,10 @@ class Game extends Component {
     this.setGame();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timerId);
+  }
+
   handleClick = ({ target: { name } }) => {
     this.setState({ btnIsDisable: true, click: true }, () => {
       const { questionDifficulty } = this.state;
@@ -41,7 +44,6 @@ class Game extends Component {
 
   redirectTo = (route) => {
     const { history } = this.props;
-    localStorage.removeItem('token');
     history.push(route);
   };
 
@@ -50,6 +52,7 @@ class Game extends Component {
     const ERROR_CODE = 3;
     const response = await fetchGame(getStorage('token'));
     if (response.response_code === ERROR_CODE) {
+      localStorage.removeItem('token');
       this.redirectTo('/');
     } else {
       this.setState({ gameQuestions: response.results });
@@ -62,18 +65,21 @@ class Game extends Component {
   nextQuestion = () => {
     const { questionNumber } = this.state;
     const MAX_QUESTIONS = 5;
-    if (questionNumber === MAX_QUESTIONS - 1) this.redirectTo('/feedback');
-    this.setState(
-      (pastState) => ({
-        questionNumber: pastState.questionNumber + 1,
-        click: false,
-      }),
-      () => {
-        this.setNewQuestion();
-        clearInterval(this.timerId);
-        this.setState({ seconds: 30, btnIsDisable: false });
-      },
-    );
+    if (questionNumber === MAX_QUESTIONS - 1) {
+      this.redirectTo('/feedback');
+    } else {
+      this.setState(
+        (pastState) => ({
+          questionNumber: pastState.questionNumber + 1,
+          click: false,
+        }),
+        () => {
+          this.setNewQuestion();
+          clearInterval(this.timerId);
+          this.setState({ seconds: 30, btnIsDisable: false });
+        },
+      );
+    }
   };
 
   setNewQuestion = () => {
@@ -143,34 +149,40 @@ class Game extends Component {
             <h4>{`Difficulty: ${questionDifficulty}`}</h4>
             <div data-testid="answer-options">
               {answers.map((answer, index) => (answer === correctAnswer ? (
-                <Button
+                <button
                   key={ answer }
-                  btnText={ answer }
-                  btnName="correct"
-                  btnClass={ click ? 'correct' : '' }
-                  btnDisabled={ btnIsDisable }
-                  btnDataId="correct-answer"
-                  btnClick={ this.handleClick }
-                />
+                  type="button"
+                  name="correct"
+                  className={ click ? 'correct' : '' }
+                  disabled={ btnIsDisable }
+                  data-testid="correct-answer"
+                  onClick={ this.handleClick }
+                >
+                  { answer }
+                </button>
               ) : (
-                <Button
+                <button
                   key={ answer }
-                  btnText={ answer }
-                  btnClass={ click ? 'wrong' : '' }
-                  btnDisabled={ btnIsDisable }
-                  btnDataId={ `wrong-answer-${index}` }
-                  btnClick={ this.handleClick }
-                />
+                  type="button"
+                  className={ click ? 'wrong' : '' }
+                  disabled={ btnIsDisable }
+                  data-testid={ `wrong-answer-${index}` }
+                  onClick={ this.handleClick }
+                >
+                  { answer }
+                </button>
               )))}
             </div>
             {`Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
             {click && (
-              <Button
-                btnText="Next"
-                btnName="next"
-                btnDataId="btn-next"
-                btnClick={ this.nextQuestion }
-              />
+              <button
+                type="button"
+                name="next"
+                data-testid="btn-next"
+                onClick={ this.nextQuestion }
+              >
+                Next
+              </button>
             )}
           </div>
         )}
