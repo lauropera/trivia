@@ -7,6 +7,7 @@ import { addCalc } from '../redux/actions';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import '../styles/QuestionsStyle.css';
+import '../styles/Game.css';
 
 const NUMBER_TEN = 10;
 const INITIAL_STATE = {
@@ -118,7 +119,7 @@ class Game extends Component {
       const { seconds, click } = this.state;
       if (seconds === TIMER_LIMIT || click) {
         clearInterval(this.timerId);
-        this.setState({ btnIsDisable: true });
+        this.setState({ btnIsDisable: true, click: true });
       } else {
         this.setState({ seconds: seconds - 1 });
       }
@@ -138,16 +139,18 @@ class Game extends Component {
       isLoading,
     } = this.state;
     return (
-      <>
+      <main className="Game-Container">
         <Header />
         {isLoading ? (
           <Loading />
         ) : (
-          <div>
-            <h2 data-testid="question-category">{gameCategory}</h2>
-            <h4 data-testid="question-text">{questionName}</h4>
-            <h4>{`Difficulty: ${questionDifficulty}`}</h4>
-            <div data-testid="answer-options">
+          <section className="Game">
+            <div>
+              <h3 data-testid="question-category">{gameCategory}</h3>
+              <h1 data-testid="question-text">{questionName}</h1>
+              <p>{`Difficulty: ${questionDifficulty}`}</p>
+            </div>
+            <div className="Answers-Container" data-testid="answer-options">
               {answers.map((answer, index) => (answer === correctAnswer ? (
                 <button
                   key={ answer }
@@ -158,7 +161,7 @@ class Game extends Component {
                   data-testid="correct-answer"
                   onClick={ this.handleClick }
                 >
-                  { answer }
+                  {answer}
                 </button>
               ) : (
                 <button
@@ -169,11 +172,11 @@ class Game extends Component {
                   data-testid={ `wrong-answer-${index}` }
                   onClick={ this.handleClick }
                 >
-                  { answer }
+                  {answer}
                 </button>
               )))}
             </div>
-            {`Timer: 00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
+            {`00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
             {click && (
               <button
                 type="button"
@@ -184,9 +187,9 @@ class Game extends Component {
                 Next
               </button>
             )}
-          </div>
+          </section>
         )}
-      </>
+      </main>
     );
   }
 }

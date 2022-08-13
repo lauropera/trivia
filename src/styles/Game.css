@@ -1,0 +1,28 @@
+.Game-Container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Game, .Loading {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 90vh;
+  justify-content: center;
+  width: 100vw;
+}
+
+.Answers-Container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  justify-content: space-evenly;
+  width: 60vw;
+}
+
+.Answers-Container button {
+  height: 15vh;
+  width: 25vw;
+}
