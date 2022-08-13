@@ -9,7 +9,6 @@ import Loading from '../components/Loading';
 import '../styles/QuestionsStyle.css';
 import '../styles/Game.css';
 
-const NUMBER_TEN = 10;
 const INITIAL_STATE = {
   gameQuestions: [],
   gameCategory: '',
@@ -146,7 +145,7 @@ class Game extends Component {
         ) : (
           <section className="Game">
             <div className="Informations-Container">
-              {`00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
+              <p>{seconds}</p>
               <h3 data-testid="question-category">{gameCategory}</h3>
               <h1 data-testid="question-text">{questionName}</h1>
               <p>{`Difficulty: ${questionDifficulty}`}</p>
