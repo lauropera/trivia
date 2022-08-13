@@ -145,7 +145,8 @@ class Game extends Component {
           <Loading />
         ) : (
           <section className="Game">
-            <div>
+            <div className="Informations-Container">
+              {`00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
               <h3 data-testid="question-category">{gameCategory}</h3>
               <h1 data-testid="question-text">{questionName}</h1>
               <p>{`Difficulty: ${questionDifficulty}`}</p>
@@ -156,7 +157,7 @@ class Game extends Component {
                   key={ answer }
                   type="button"
                   name="correct"
-                  className={ click ? 'correct' : '' }
+                  className={ click ? 'correct' : 'Answer-Btn' }
                   disabled={ btnIsDisable }
                   data-testid="correct-answer"
                   onClick={ this.handleClick }
@@ -167,7 +168,7 @@ class Game extends Component {
                 <button
                   key={ answer }
                   type="button"
-                  className={ click ? 'wrong' : '' }
+                  className={ click ? 'wrong' : 'Answer-Btn' }
                   disabled={ btnIsDisable }
                   data-testid={ `wrong-answer-${index}` }
                   onClick={ this.handleClick }
@@ -176,17 +177,21 @@ class Game extends Component {
                 </button>
               )))}
             </div>
-            {`00:${seconds < NUMBER_TEN ? `0${seconds}` : seconds}`}
-            {click && (
-              <button
-                type="button"
-                name="next"
-                data-testid="btn-next"
-                onClick={ this.nextQuestion }
-              >
-                Next
-              </button>
-            )}
+            <div
+              className={ `Next-BtnContainer ${click ? 'Visible' : 'Hide'}` }
+            >
+              {click && (
+                <button
+                  type="button"
+                  name="next"
+                  className="Next-Button"
+                  data-testid="btn-next"
+                  onClick={ this.nextQuestion }
+                >
+                  Next
+                </button>
+              )}
+            </div>
           </section>
         )}
       </main>

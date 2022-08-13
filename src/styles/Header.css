@@ -1,7 +1,7 @@
 .header-game {
   align-items: center;
   background-color: #3e363f;
-  box-shadow: 1px 2px 20px rgba(62, 54, 63, 0.829);
+  box-shadow: 1px 1px 10px 1px rgba(62, 54, 63, 0.89);
   color: #3e363f;
   display: flex;
   height: 10vh;

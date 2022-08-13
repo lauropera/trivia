@@ -10,19 +10,58 @@
   display: flex;
   flex-flow: column nowrap;
   height: 90vh;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 100vw;
 }
 
+.Informations-Container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 20vh;
+  justify-content: center;
+  width: 80vw;
+}
+
 .Answers-Container {
+  align-items: center;
+  background-color: #dfe3eb;
+  border-radius: 6px;
+  box-shadow: 1px 1px 10px rgba(62, 54, 63, 0.459);
   display: flex;
   flex-flow: row wrap;
-  gap: 0.5rem;
+  height: 45vh;
   justify-content: space-evenly;
-  width: 60vw;
+  width: 600px;
 }
 
 .Answers-Container button {
-  height: 15vh;
-  width: 25vw;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  height: 18vh;
+  inline-size: 100%;
+  overflow-wrap: break-word;
+  padding: 4px;
+  transition: 0.2s;
+  width: 250px;
 }
+
+.Next-BtnContainer {
+  height: 8vh;
+}
+
+.Next-Button {
+  cursor: pointer;
+  height: 100%;
+  width: 20vw;
+}
+
+.Visible {
+  visibility: visible;
+}
+
+.Hide {
+  visibility: hidden;
+}
+

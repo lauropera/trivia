@@ -1,11 +1,22 @@
+.Answer-Btn {
+  background-color: #caced8;
+  cursor: pointer;
+}
+
+.Answer-Btn:hover {
+  filter: brightness(105%);
+}
+
 .correct {
-  background-color: lime;
-  border: 3px solid rgb(6, 240, 15);
+  background-color: #697a21;
+  border: 3px solid #697a21;
   color: white;
+  transition: 0.2s;
 }
 
 .wrong {
-  background-color: red;
-  border: 3px solid red;
+  background-color: #dd403a;
+  border: 3px solid #dd403a;
   color: white;
+  transition: 0.2s;
 }
