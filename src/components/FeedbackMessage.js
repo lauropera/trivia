@@ -28,7 +28,7 @@ class FeedbackMessage extends Component {
     return (
       <div>
         <p
-          id={ idChange ? 'goodMessage' : 'badMessage' }
+          className={ idChange ? 'goodMessage' : 'badMessage' }
           data-testid="feedback-text"
         >
           { this.handlerMessage() }

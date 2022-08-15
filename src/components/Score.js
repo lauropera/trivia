@@ -12,7 +12,7 @@ class Score extends Component {
           {' '}
           Questões Corretas
         </p>
-        <p id="total-score" data-testid="feedback-total-score">
+        <p className="total-score" data-testid="feedback-total-score">
           { score }
           {' '}
           Pontuação Total
