@@ -1,7 +1,7 @@
 import React from 'react';
 import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
-import { addPlayer, resetPlayer } from '../redux/actions';
+import { addPlayer } from '../redux/actions';
 import { saveStorage } from '../services/localStorage';
 import { requestTokenAPI } from '../services/requestAPI';
 import '../App.css';
@@ -13,11 +13,6 @@ class Login extends React.Component {
     email: '',
     isSaveButtonDisabled: true,
   };
-
-  componentDidMount() {
-    const { resetPlayerDispatch } = this.props;
-    resetPlayerDispatch();
-  }
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -102,13 +97,11 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   addPlayerDispatch: (state) => dispatch(addPlayer(state)),
-  resetPlayerDispatch: () => dispatch(resetPlayer()),
 });
 
 Login.propTypes = {
   addPlayerDispatch: func.isRequired,
   history: shape({ push: func }).isRequired,
-  resetPlayerDispatch: func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
