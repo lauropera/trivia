@@ -6,7 +6,7 @@ import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
 import FeedbackMessage from '../components/FeedbackMessage';
-import '../styles/Feedback.css'
+import '../styles/Feedback.css';
 import { saveStorage } from '../services/localStorage';
 
 class Feedback extends Component {
