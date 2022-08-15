@@ -24,6 +24,7 @@ class Feedback extends Component {
     if (name) {
       const items = JSON.parse(localStorage.getItem('ranking') || '[]');
       const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
+      console.log();
       localStorage.setItem('ranking', JSON.stringify(itemsSorted));
     }
   };
@@ -37,7 +38,7 @@ class Feedback extends Component {
   render() {
     return (
       <div className="feedback-container">
-        <Header />
+        <Header hideScore />
         <FeedbackMessage />
         <Score />
         <div className="feedback-buttons">

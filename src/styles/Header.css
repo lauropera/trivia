@@ -1,4 +1,4 @@
-.header-game {
+.header-game, .header-game-noscore {
   align-items: center;
   background-color: #3e363f;
   box-shadow: 1px 1px 10px 1px rgba(62, 54, 63, 0.89);
@@ -8,6 +8,14 @@
   justify-content: space-between;
   padding: 0 2rem;
   width: 100vw;
+}
+
+.header-game {
+  justify-content: space-between;
+}
+
+.header-game-noscore {
+  justify-content: flex-end;
 }
 
 .Player-Container {
