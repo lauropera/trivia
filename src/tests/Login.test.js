@@ -9,12 +9,6 @@ import App from '../App';
 
 describe('Testes com a tela de Login', () => {
   afterEach(() => jest.restoreAllMocks());
-  it('Verifica se a logo do jogo Trivia aparece na tela', () => {
-    renderWithRouterAndRedux(<App />);
-
-    const triviaLogoEl = screen.getByRole('img', { name: 'logo' });
-    expect(triviaLogoEl).toBeInTheDocument();
-  });
 
   it('Verifica se o formulário de Login aparece na tela', () => {
     renderWithRouterAndRedux(<App />);
