@@ -57,7 +57,7 @@ describe('Testes com a tela de Ranking', () => {
       json: jest.fn().mockResolvedValue(questions),
     });
 
-    URL = `https://opentdb.com/api.php?amount=5&token=${token.token}`;
+    URL = `https://opentdb.com/api.php?amount=10&token=${token.token}&category=&difficulty=&type=`;
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));
 
     const MAX_QUESTIONS = 5;
