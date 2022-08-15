@@ -24,6 +24,14 @@ class Ranking extends Component {
       <div>
         <Header />
         <div className="ranking-body">
+          <button
+            type="button"
+            className="home-button"
+            data-testid="btn-go-home"
+            onClick={ () => history.push('/') }
+          >
+            Home
+          </button>
           <h1 data-testid="ranking-title">Ranking</h1>
           <div className="ranking-list">
             {items.map((item, index) => (
@@ -52,14 +60,6 @@ class Ranking extends Component {
               </div>
             ))}
           </div>
-          <button
-            type="button"
-            className="home-button"
-            data-testid="btn-go-home"
-            onClick={ () => history.push('/') }
-          >
-            Home
-          </button>
         </div>
       </div>
     );
