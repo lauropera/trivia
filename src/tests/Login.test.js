@@ -1,12 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import token from './mocks/tokenMock';
 import questions from './mocks/questionsMock';
+import categories from './mocks/categoriesMock';
 import App from '../App';
 
 describe('Testes com a tela de Login', () => {
+  afterEach(() => jest.restoreAllMocks());
   it('Verifica se a logo do jogo Trivia aparece na tela', () => {
     renderWithRouterAndRedux(<App />);
 
@@ -76,16 +78,20 @@ describe('Testes com a tela de Login', () => {
   it('Verifica se o botão de configurações aparece na tela', () => {
     renderWithRouterAndRedux(<App />);
 
-    const configBtn = screen.getByRole('button', { name: /configurações/i });
+    const configBtn = screen.getByRole('button', { name: /settings/i });
     expect(configBtn).toBeInTheDocument();
   });
 
   it('Verifica se ao clicar no botão de configurações é redirecionado para página de configurações', () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(categories),
+    });
     const { history } = renderWithRouterAndRedux(<App />);
-
-    const configBtn = screen.getByRole('button', { name: /configurações/i });
+    
+    const configBtn = screen.getByRole('button', { name: /settings/i });
     expect(configBtn).toBeInTheDocument();
-
+    
     userEvent.click(configBtn);
 
     const {

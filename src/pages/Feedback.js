@@ -6,6 +6,8 @@ import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
 import FeedbackMessage from '../components/FeedbackMessage';
+import '../styles/Feedback.css'
+import { saveStorage } from '../services/localStorage';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -23,8 +25,7 @@ class Feedback extends Component {
     if (name) {
       const items = JSON.parse(localStorage.getItem('ranking') || '[]');
       const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
-      console.log();
-      localStorage.setItem('ranking', JSON.stringify(itemsSorted));
+      saveStorage('ranking', JSON.stringify(itemsSorted));
     }
   };
 
@@ -36,24 +37,28 @@ class Feedback extends Component {
 
   render() {
     return (
-      <div>
+      <div className="feedback-container">
         <Header hideScore />
-        <Score />
         <FeedbackMessage />
-        <button
-          type="button"
-          onClick={ () => this.handleClick('/') }
-          data-testid="btn-play-again"
-        >
-          Play again
-        </button>
-        <button
-          type="button"
-          onClick={ () => this.handleClick('/ranking') }
-          data-testid="btn-ranking"
-        >
-          Ranking
-        </button>
+        <Score />
+        <div className="feedback-buttons">
+          <button
+            type="button"
+            onClick={ () => this.handleClick('/') }
+            data-testid="btn-play-again"
+            className="playBtn"
+          >
+            Play again
+          </button>
+          <button
+            type="button"
+            onClick={ () => this.handleClick('/ranking') }
+            data-testid="btn-ranking"
+            className="rankingBtn"
+          >
+            Ranking
+          </button>
+        </div>
       </div>
     );
   }

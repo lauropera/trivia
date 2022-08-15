@@ -3,7 +3,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import invalidToken from './mocks/invalidTokenMock';
-import token from './mocks/tokenMock';
 import questions from './mocks/questionsMock';
 import emptyQuestions from './mocks/emptyQuestionsMock';
 import App from '../App';
@@ -35,6 +34,22 @@ describe('Testes com a tela de Game', () => {
     expect(pathname).toBe('/feedback');
   });
 
+  it('Testa se o score não é somado caso não acerte a questão', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(questions),
+    });
+
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/game');
+
+    const btn = await screen.findAllByTestId(/wrong-answer-/i);
+    userEvent.click(btn[0]);
+
+    const score = screen.getByTestId('header-score');
+    expect(score).toHaveTextContent('0');
+  })
+
   it('Testa se redireciona para home caso token seja inválido', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
@@ -55,7 +70,7 @@ describe('Testes com a tela de Game', () => {
       json: jest.fn().mockResolvedValue(emptyQuestions),
     });
 
-    URL = 'https://opentdb.com/api.php?amount=5&token=hue';
+    URL = 'https://opentdb.com/api.php?amount=10&token=hue&category=&difficulty=&type=';
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));
 
     const { pathname } = history.location;
