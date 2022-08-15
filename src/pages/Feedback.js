@@ -6,6 +6,7 @@ import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
 import FeedbackMessage from '../components/FeedbackMessage';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -35,24 +36,28 @@ class Feedback extends Component {
 
   render() {
     return (
-      <div>
+      <div className="feedback-container">
         <Header />
-        <Score />
         <FeedbackMessage />
-        <button
-          type="button"
-          onClick={ () => this.handleClick('/') }
-          data-testid="btn-play-again"
-        >
-          Play again
-        </button>
-        <button
-          type="button"
-          onClick={ () => this.handleClick('/ranking') }
-          data-testid="btn-ranking"
-        >
-          Ranking
-        </button>
+        <Score />
+        <div className="feedback-buttons">
+          <button
+            type="button"
+            onClick={ () => this.handleClick('/') }
+            data-testid="btn-play-again"
+            className="playBtn"
+          >
+            Play again
+          </button>
+          <button
+            type="button"
+            onClick={ () => this.handleClick('/ranking') }
+            data-testid="btn-ranking"
+            className="rankingBtn"
+          >
+            Ranking
+          </button>
+        </div>
       </div>
     );
   }

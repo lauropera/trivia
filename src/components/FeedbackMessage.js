@@ -3,6 +3,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class FeedbackMessage extends Component {
+  state = {
+    idChange: false,
+  }
+
+  componentDidMount = () => {
+    const NUMBER_OF_ASSERTIONS = 3;
+    const { assertions } = this.props;
+    if (assertions >= NUMBER_OF_ASSERTIONS) {
+      this.setState({ idChange: true });
+    }
+  }
+
   handlerMessage = () => {
     const NUMBER_OF_ASSERTIONS = 3;
     const { assertions } = this.props;
@@ -12,9 +24,16 @@ class FeedbackMessage extends Component {
   };
 
   render() {
+    const { idChange } = this.state;
     return (
       <div>
-        <p data-testid="feedback-text">{ this.handlerMessage() }</p>
+        <p
+          id={ idChange ? 'goodMessage' : 'badMessage' }
+          data-testid="feedback-text"
+        >
+          { this.handlerMessage() }
+
+        </p>
       </div>
     );
   }

@@ -1,0 +1,64 @@
+.feedback-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.score-info{
+  display: flex;
+  flex-direction: column;
+  height:50px;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
+
+.playBtn {
+  background-color: rgba(62, 54, 63, 0.7);
+  border: 3px solid rgba(62, 54, 63, 0.3);
+  color: white;
+  margin: 5px;
+  margin-right: 10px;
+  font-size: 20px;
+  line-height: 25px;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.rankingBtn{
+  margin: 5px;
+  font-size: 20px;
+  padding:10px;
+  border: 3px solid #ebeef5;
+  background-color: rgba(235, 238, 245);
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+#goodMessage {
+  margin: 15% 0 10% 0;
+  padding: 20px;
+  border-radius: 3px;
+  font-size: 100px;
+  text-align: center;
+  background-color: #697a21;
+  color: white;
+}
+
+#badMessage {
+  margin: 15% 0 10% 0;
+  padding: 20px;
+  border-radius: 3px;
+  font-size: 70px;
+  text-align: center;
+  background-color: #DD403A;
+  color: white;
+}
+
+.feedback-buttons{
+  display: flex;
+}
+
+#total-score {
+  font-size: 30px;
+}
