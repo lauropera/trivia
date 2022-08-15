@@ -1,11 +1,11 @@
 import React from 'react';
 import { func, shape } from 'prop-types';
 import { connect } from 'react-redux';
-import { addPlayer, resetPlayer } from '../redux/actions';
+import { addPlayer } from '../redux/actions';
 import { saveStorage } from '../services/localStorage';
 import { requestTokenAPI } from '../services/requestAPI';
-import logo from '../trivia.png';
 import '../App.css';
+import '../styles/Login.css';
 
 class Login extends React.Component {
   state = {
@@ -30,60 +30,66 @@ class Login extends React.Component {
 
   handleClick = async (event) => {
     event.preventDefault();
-    const token = await requestTokenAPI();
-    const { resetPlayerDispatch, addPlayerDispatch, history } = this.props;
-    resetPlayerDispatch();
     const { name, email } = this.state;
+    const { addPlayerDispatch, history } = this.props;
     addPlayerDispatch({ name, email });
+    const token = await requestTokenAPI();
     saveStorage('token', token);
     history.push('/game');
   };
 
   render() {
-    const { history } = this.props;
     const { isSaveButtonDisabled } = this.state;
+    const { history } = this.props;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
+          <h1 className="App-title">
+            Tr
+            <span>iui</span>
+            a
+          </h1>
           <p>SUA VEZ</p>
+          <form className="formLogin">
+            <label htmlFor="input-gravatar-email">
+              Email
+              <input
+                name="email"
+                onChange={ this.handleChange }
+                data-testid="input-gravatar-email"
+              />
+            </label>
+            <label htmlFor="input-name">
+              Name
+              <input
+                name="name"
+                id="input-name"
+                onChange={ this.handleChange }
+                data-testid="input-player-name"
+              />
+            </label>
+            <div className="button-container">
+              <button
+                data-testid="btn-play"
+                onClick={ this.handleClick }
+                type="submit"
+                disabled={ isSaveButtonDisabled }
+              >
+                {' '}
+                Play
+                {' '}
+              </button>
+              <button
+                type="button"
+                data-testid="btn-settings"
+                onClick={ () => history.push('/settings') }
+              >
+                Settings
+              </button>
+            </div>
+          </form>
         </header>
-        <form>
-          <label htmlFor="input-email">
-            Email
-            <input
-              name="email"
-              id="input-email"
-              onChange={ this.handleChange }
-              data-testid="input-gravatar-email"
-            />
-          </label>
-          <label htmlFor="input-name">
-            Name
-            <input
-              name="name"
-              id="input-name"
-              maxLength="38"
-              onChange={ this.handleChange }
-              data-testid="input-player-name"
-            />
-          </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ isSaveButtonDisabled }
-            onClick={ this.handleClick }
-          >
-            Play
-          </button>
-        </form>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Settings
-        </button>
+
       </div>
     );
   }
@@ -91,13 +97,11 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   addPlayerDispatch: (state) => dispatch(addPlayer(state)),
-  resetPlayerDispatch: () => dispatch(resetPlayer()),
 });
 
 Login.propTypes = {
   addPlayerDispatch: func.isRequired,
   history: shape({ push: func }).isRequired,
-  resetPlayerDispatch: func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

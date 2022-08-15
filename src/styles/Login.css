@@ -1,0 +1,92 @@
+* {
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: League Spartan , Roboto , sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  background-color: #e5ecf3;
+}
+
+.App-title {
+  color: #666f7ac4;
+  font-size: 10rem;
+  text-shadow: 0.6rem 0.6rem 1rem #1e263c27;
+  transform: translateY(-7rem);
+}
+
+.App-title span {
+  color: #99bbed;
+}
+
+.formLogin {
+  align-items: center;
+  background-color: #dee9f4;
+  border-radius: 1rem;
+  box-shadow: 0.5rem 0.7rem 2rem rgb(0, 0, 0, 0.2);
+  color: #16212791;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  padding: 2rem;
+  transform: scale(1.5);
+}
+
+.formLogin label {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.formLogin input {
+  border-radius: 0.4rem;
+  color: #162127bd;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.7rem;
+}
+
+.formLogin input:focus {
+  transform: scale(1.05);
+}
+
+*:focus {
+  outline: solid 0.1rem #99bbed;
+}
+
+.button-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.button-container button {
+  background-color: #e5ecf3;
+  border-radius: 0.4rem;
+  box-shadow: 0.2rem 0.2rem 0.9rem rgb(0, 0, 0, 0.2);
+  color: #162127cb;
+  font-size: 1rem;
+  padding: 0.6rem 0.9rem;
+  width: 6rem;
+}
+
+.button-container button:hover {
+  background-color: #dee9f4;
+  box-shadow: 0.1rem 0.1rem 0.2rem rgb(0, 0, 0, 0.2);
+  color: #162127cb;
+}
+
+.button-container button:disabled {
+  color: #16212773;
+}
