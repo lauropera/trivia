@@ -1,7 +1,7 @@
 import { ADD_PLAYER, ADD_CALC, RESET_OLD_PLAYER } from '../actions';
 
 const INITIAL_STATE = {
-  name: '',
+  name: 'Player',
   assertions: 0,
   score: 0,
   gravatarEmail: '',
