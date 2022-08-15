@@ -9,7 +9,6 @@ import questions from './mocks/questionsMock';
 describe('Testes com a tela de Ranking', () => {
   afterEach(() => {
     jest.restoreAllMocks();
-    window.localStorage.clear();
   });
 
   it('Verifica se quando clicar no botão home leva para pagina principal', () => {
