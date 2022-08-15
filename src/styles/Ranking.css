@@ -1,0 +1,61 @@
+.ranking-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #ebeef5;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  gap: 13px;
+} 
+
+.ranking-list-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  padding: 10px 15px;
+  background-color: #dee9f4;
+  color: #162127bd;
+  box-shadow: 0.5rem 0.7rem 2rem rgb(0, 0, 0, .2);
+}
+
+.ranking-list-card:hover {
+  transform: scale(1.05);
+}
+
+.ranking-list-card img  {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+}
+
+.card-personal-name {
+  width: 50%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #3e363f;
+}
+
+.home-button {
+  width: 6rem;
+  font-size: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.4rem;
+  color: #162127cb;
+  background-color: #e5ecf3;
+  box-shadow: 0.2rem 0.2rem 0.9rem rgb(0, 0, 0, .2);
+}
+
+.home-button:hover {
+  cursor: pointer;
+  color: #162127cb;
+  background-color: #dee9f4;
+  box-shadow: 0.1rem 0.1rem 0.2rem rgb(0, 0, 0, .2);
+}
