@@ -1,4 +1,4 @@
-// import { getStorage } from './localStorage';
+import { getStorage } from './localStorage';
 
 export const requestTokenAPI = async () => {
   try {
@@ -13,11 +13,12 @@ export const requestTokenAPI = async () => {
 
 export const fetchGame = async (
   token,
-  // category = getStorage('category') || '',
-  // difficulty = '',
-  // type = '',
+  { category, difficulty, type } = JSON.parse(getStorage('options')),
 ) => {
-  const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  category = typeof category === 'string' ? '' : category;
+  difficulty = difficulty.includes('Any') ? '' : difficulty.toLowerCase();
+  type = type.includes('Any') ? '' : type;
+  const URL = `https://opentdb.com/api.php?amount=10&token=${token}&category=${category}&difficulty=${difficulty}&type=${type}`;
   try {
     const response = await fetch(URL);
     const data = await response.json();

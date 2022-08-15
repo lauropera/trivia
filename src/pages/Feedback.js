@@ -6,6 +6,7 @@ import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
 import FeedbackMessage from '../components/FeedbackMessage';
+import { saveStorage } from '../services/localStorage';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -23,8 +24,7 @@ class Feedback extends Component {
     if (name) {
       const items = JSON.parse(localStorage.getItem('ranking') || '[]');
       const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
-      console.log();
-      localStorage.setItem('ranking', JSON.stringify(itemsSorted));
+      saveStorage('ranking', JSON.stringify(itemsSorted));
     }
   };
 
