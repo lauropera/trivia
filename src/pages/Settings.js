@@ -17,7 +17,7 @@ class Settings extends Component {
     this.state = {
       category: JSON.parse(getStorage('options')).category,
       difficulty: JSON.parse(getStorage('options')).difficulty,
-      // type: JSON.parse(getStorage('options').type),
+      type: JSON.parse(getStorage('options')).type,
       categories: [],
       isLoading: true,
     };
@@ -67,7 +67,7 @@ class Settings extends Component {
   };
 
   render() {
-    const { category, difficulty, categories, isLoading } = this.state;
+    const { category, difficulty, type, categories, isLoading } = this.state;
     return (
       <main>
         <h2 data-testid="settings-title">Settings</h2>
@@ -102,6 +102,19 @@ class Settings extends Component {
                   <option id="easy">Easy</option>
                   <option id="medium">Medium</option>
                   <option id="hard">Hard</option>
+                </select>
+              </label>
+              <label htmlFor="type">
+                Type
+                <select
+                  onChange={ this.setNewOption }
+                  value={ type }
+                  name="type"
+                  id="type"
+                >
+                  <option id="any">Any Type</option>
+                  <option id="multiple">Multiple Choice</option>
+                  <option id="boolean">True / False</option>
                 </select>
               </label>
             </form>
