@@ -3,16 +3,20 @@ import { Link } from 'react-router-dom';
 import { getStorage, saveStorage } from '../services/localStorage';
 import { fetchCategories } from '../services/requestAPI';
 import Loading from '../components/Loading';
+import '../styles/Settings.css';
 
 class Settings extends Component {
   constructor() {
     super();
     if (!getStorage('options')) {
-      saveStorage('options', JSON.stringify({
-        category: 'Any category',
-        difficulty: 'Any difficulty',
-        type: 'Any Type',
-      }));
+      saveStorage(
+        'options',
+        JSON.stringify({
+          category: 'Any category',
+          difficulty: 'Any difficulty',
+          type: 'Any Type',
+        }),
+      );
     }
     this.state = {
       category: JSON.parse(getStorage('options')).category,
@@ -69,13 +73,13 @@ class Settings extends Component {
   render() {
     const { category, difficulty, type, categories, isLoading } = this.state;
     return (
-      <main>
+      <main className="Settings-Container">
         <h2 data-testid="settings-title">Settings</h2>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <>
-            <form>
+        <section className="Settings">
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <form className="Settings-Form">
               <label htmlFor="category">
                 Category
                 <select
@@ -117,12 +121,10 @@ class Settings extends Component {
                   <option id="boolean">True / False</option>
                 </select>
               </label>
+              <Link className="Save-Btn" to="/">Save</Link>
             </form>
-            <div>
-              <Link to="/">Home</Link>
-            </div>
-          </>
-        )}
+          )}
+        </section>
       </main>
     );
   }

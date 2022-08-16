@@ -22,7 +22,7 @@ class Ranking extends Component {
     const { history } = this.props;
     return (
       <div>
-        <Header />
+        <Header hideScore />
         <div className="ranking-body">
           <button
             type="button"

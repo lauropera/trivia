@@ -14,6 +14,11 @@
   width: 100vw;
 }
 
+.Loading {
+  height: auto;
+  width: auto;
+}
+
 .Informations-Container {
   align-items: center;
   display: flex;
@@ -54,6 +59,9 @@
 }
 
 .Next-Button {
+  background: #dfe3eb;
+  border-radius: 6px;
+  box-shadow: 1px 1px 10px rgb(62 54 63 / 46%);
   cursor: pointer;
   height: 100%;
   width: 20vw;

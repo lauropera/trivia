@@ -24,17 +24,16 @@ describe('Testes com a tela de Ranking', () => {
   });
 
   it('Verifica se a ordem do score é decrescente aos pontos', async () => {
-    
     const { history } = renderWithRouterAndRedux(<App />, {
       player: {
         name: 'Marcus',
-        score: 26,
+        score: 300,
         assertions: 3,
         gravatarEmail: 'marcus@teste.com',
       },
     });
     history.push('/feedback');
-    
+
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(token),
@@ -59,13 +58,19 @@ describe('Testes com a tela de Ranking', () => {
     URL = `https://opentdb.com/api.php?amount=10&token=${token.token}&category=&difficulty=&type=`;
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));
 
-    const MAX_QUESTIONS = 5;
-    for (let question = 0; question < MAX_QUESTIONS; question += 1) {
+    const MINIMUM_QUESTIONS = 4;
+    
+    for (let question = 0; question < MINIMUM_QUESTIONS; question += 1) {
       const btn = await screen.findAllByTestId(/wrong-answer-/i);
       userEvent.click(btn[0]);
       const nextBtn = screen.getByTestId('btn-next');
       userEvent.click(nextBtn);
     }
+    
+    const answer = screen.getByTestId('correct-answer');
+    userEvent.click(answer);
+    const nextBtn = screen.getByTestId('btn-next');
+    userEvent.click(nextBtn);
 
     const rankBtn = screen.getByTestId('btn-ranking');
     userEvent.click(rankBtn);

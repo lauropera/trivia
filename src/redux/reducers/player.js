@@ -1,4 +1,4 @@
-import { ADD_PLAYER, ADD_CALC, RESET_OLD_PLAYER } from '../actions';
+import { ADD_PLAYER, ADD_CALC, RESET_OLD_PLAYER, RESET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: 'Player',
@@ -24,10 +24,16 @@ function player(state = INITIAL_STATE, action) {
   case RESET_OLD_PLAYER:
     return {
       ...state,
-      name: '',
+      name: 'Player',
       assertions: 0,
       score: 0,
       gravatarEmail: '',
+    };
+  case RESET_SCORE:
+    return {
+      ...state,
+      assertions: 0,
+      score: 0,
     };
   default:
     return state;

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { func, number, shape, string } from 'prop-types';
-import { resetPlayer } from '../redux/actions';
+import {
+  resetPlayer as resetPlayerAction,
+  resetScore as resetScoreAction,
+} from '../redux/actions';
 import getPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
 import Score from '../components/Score';
@@ -14,6 +17,11 @@ class Feedback extends Component {
     this.saveUserScore();
   }
 
+  componentWillUnmount() {
+    const { resetScore } = this.props;
+    resetScore();
+  }
+
   saveUserScore = () => {
     const { name, score, gravatarEmail } = this.props;
     const picture = getPicture(name, gravatarEmail);
@@ -22,7 +30,7 @@ class Feedback extends Component {
       score,
       picture,
     };
-    if (name) {
+    if (name && score !== 0) {
       const items = JSON.parse(localStorage.getItem('ranking') || '[]');
       const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
       saveStorage('ranking', JSON.stringify(itemsSorted));
@@ -30,36 +38,38 @@ class Feedback extends Component {
   };
 
   handleClick = (route) => {
-    const { history, resetPlayerDispatch } = this.props;
-    if (route === '/') resetPlayerDispatch();
+    const { history, resetPlayer } = this.props;
+    if (route === '/') resetPlayer();
     history.push(route);
   };
 
   render() {
     return (
-      <div className="feedback-container">
+      <main>
         <Header hideScore />
-        <FeedbackMessage />
-        <Score />
-        <div className="feedback-buttons">
-          <button
-            type="button"
-            onClick={ () => this.handleClick('/') }
-            data-testid="btn-play-again"
-            className="playBtn"
-          >
-            Play again
-          </button>
-          <button
-            type="button"
-            onClick={ () => this.handleClick('/ranking') }
-            data-testid="btn-ranking"
-            className="rankingBtn"
-          >
-            Ranking
-          </button>
+        <div className="feedback-container">
+          <FeedbackMessage />
+          <Score />
+          <div className="feedback-buttons">
+            <button
+              type="button"
+              onClick={ () => this.handleClick('/') }
+              data-testid="btn-play-again"
+              className="playBtn"
+            >
+              Play again
+            </button>
+            <button
+              type="button"
+              onClick={ () => this.handleClick('/ranking') }
+              data-testid="btn-ranking"
+              className="rankingBtn"
+            >
+              Ranking
+            </button>
+          </div>
         </div>
-      </div>
+      </main>
     );
   }
 }
@@ -71,7 +81,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetPlayerDispatch: () => dispatch(resetPlayer()),
+  resetPlayer: () => dispatch(resetPlayerAction()),
+  resetScore: () => dispatch(resetScoreAction()),
 });
 
 Feedback.propTypes = {
@@ -79,7 +90,8 @@ Feedback.propTypes = {
   score: number.isRequired,
   gravatarEmail: string.isRequired,
   history: shape({ push: func }).isRequired,
-  resetPlayerDispatch: func.isRequired,
+  resetPlayer: func.isRequired,
+  resetScore: func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
