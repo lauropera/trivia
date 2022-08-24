@@ -53,14 +53,17 @@ body {
   color: #162127bd;
   margin-top: 0.5rem;
   padding: 0.4rem 0.7rem;
+  transition: 0.3s;
 }
 
 .formLogin input:focus {
   transform: scale(1.05);
+  transition: 0.3s;
 }
 
 *:focus {
   outline: solid 0.1rem #99bbed;
+  transition: 0.3s;
 }
 
 .button-container {
@@ -76,8 +79,9 @@ body {
   border-radius: 0.4rem;
   box-shadow: 0.2rem 0.2rem 0.9rem rgb(0, 0, 0, 0.2);
   color: #162127cb;
-  font-size: 1rem;
+  font-size: 1.2rem;
   padding: 0.6rem 0.9rem;
+  transition: 0.3s;
   width: 6rem;
 }
 
@@ -85,6 +89,7 @@ body {
   background-color: #dee9f4;
   box-shadow: 0.1rem 0.1rem 0.2rem rgb(0, 0, 0, 0.2);
   color: #162127cb;
+  transition: 0.3s;
 }
 
 .button-container button:disabled {

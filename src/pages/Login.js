@@ -51,12 +51,13 @@ class Login extends React.Component {
           </h1>
           <p>SUA VEZ</p>
           <form className="formLogin">
-            <label htmlFor="input-gravatar-email">
+            <label htmlFor="input-email">
               Email
               <input
                 name="email"
                 onChange={ this.handleChange }
                 data-testid="input-gravatar-email"
+                id="input-email"
               />
             </label>
             <label htmlFor="input-name">

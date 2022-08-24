@@ -23,6 +23,7 @@ export const fetchGame = async (
   category = typeof category === 'string' ? '' : category;
   difficulty = difficulty.includes('Any') ? '' : difficulty.toLowerCase();
   type = type.includes('Any') ? '' : setType(type);
+
   const URL = `https://opentdb.com/api.php?amount=10&token=${token}&category=${category}&difficulty=${difficulty}&type=${type}`;
   try {
     const response = await fetch(URL);

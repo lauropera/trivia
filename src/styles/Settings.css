@@ -16,7 +16,7 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  min-height: 400px;
+  min-height: 490px;
   min-width: 450px;
 }
 
@@ -55,7 +55,7 @@
   text-align: center;
   text-decoration: none;
   transition: 0.2s;
-  width: 50%;
+  width: 35%;
 }
 
 .Save-Btn:visited {
