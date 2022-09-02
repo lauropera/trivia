@@ -15,6 +15,7 @@ class Settings extends Component {
           category: 'Any category',
           difficulty: 'Any difficulty',
           type: 'Any Type',
+          quantity: '10',
         }),
       );
     }
@@ -22,6 +23,7 @@ class Settings extends Component {
       category: JSON.parse(getStorage('options')).category,
       difficulty: JSON.parse(getStorage('options')).difficulty,
       type: JSON.parse(getStorage('options')).type,
+      quantity: JSON.parse(getStorage('options')).quantity,
       categories: [],
       isLoading: true,
     };
@@ -71,15 +73,25 @@ class Settings extends Component {
   };
 
   render() {
-    const { category, difficulty, type, categories, isLoading } = this.state;
+    const { category, difficulty, type, categories, quantity, isLoading } = this.state;
     return (
       <main className="Settings-Container">
         <h2 data-testid="settings-title">Settings</h2>
         <section className="Settings">
           {isLoading ? (
-            <Loading />
+            <Loading inSettings />
           ) : (
             <form className="Settings-Form">
+              <label htmlFor="quantity">
+                Questions Quantity
+                <input
+                  onChange={ this.setNewOption }
+                  value={ quantity }
+                  name="quantity"
+                  id="quantity"
+                  type="number"
+                />
+              </label>
               <label htmlFor="category">
                 Category
                 <select
@@ -121,7 +133,9 @@ class Settings extends Component {
                   <option id="boolean">True / False</option>
                 </select>
               </label>
-              <Link className="Save-Btn" to="/">Save</Link>
+              <Link className="Save-Btn" to="/">
+                Done
+              </Link>
             </form>
           )}
         </section>

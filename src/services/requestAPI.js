@@ -18,13 +18,13 @@ const setType = (type) => {
 
 export const fetchGame = async (
   token,
-  { category, difficulty, type } = JSON.parse(getStorage('options')),
+  { category, difficulty, type, quantity } = JSON.parse(getStorage('options')),
 ) => {
   category = typeof category === 'string' ? '' : category;
   difficulty = difficulty.includes('Any') ? '' : difficulty.toLowerCase();
   type = type.includes('Any') ? '' : setType(type);
 
-  const URL = `https://opentdb.com/api.php?amount=10&token=${token}&category=${category}&difficulty=${difficulty}&type=${type}`;
+  const URL = `https://opentdb.com/api.php?amount=${quantity}&token=${token}&category=${category}&difficulty=${difficulty}&type=${type}`;
   try {
     const response = await fetch(URL);
     const data = await response.json();

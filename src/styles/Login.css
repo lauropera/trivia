@@ -79,9 +79,10 @@ body {
   border-radius: 0.4rem;
   box-shadow: 0.2rem 0.2rem 0.9rem rgb(0, 0, 0, 0.2);
   color: #162127cb;
+  cursor: pointer;
   font-size: 1.2rem;
   padding: 0.6rem 0.9rem;
-  transition: 0.3s;
+  transition: 0.2s;
   width: 6rem;
 }
 
@@ -89,9 +90,10 @@ body {
   background-color: #dee9f4;
   box-shadow: 0.1rem 0.1rem 0.2rem rgb(0, 0, 0, 0.2);
   color: #162127cb;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .button-container button:disabled {
   color: #16212773;
+  cursor: default;
 }

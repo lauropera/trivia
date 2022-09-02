@@ -67,6 +67,7 @@ class Login extends React.Component {
                 id="input-name"
                 onChange={ this.handleChange }
                 data-testid="input-player-name"
+                maxLength="17"
               />
             </label>
             <div className="button-container">

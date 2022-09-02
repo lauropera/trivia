@@ -4,6 +4,7 @@
   flex-direction: column;
   height: 90vh;
   justify-content: space-evenly;
+  margin-top: 10vh;
 }
 
 .score-info {
@@ -15,25 +16,24 @@
   justify-content: space-between;
 }
 
-.playBtn {
-  background-color: #282c34;
+.playBtn, .rankingBtn {
   border-radius: 6px;
   box-shadow: 1px 1px 10px rgb(62 54 63 / 46%);
-  color: #ebeef5;
   cursor: pointer;
   font-size: 2rem;
   height: 100%;
   width: 20vw;
 }
 
+.playBtn {
+  background-color: #282c34;
+  color: #ebeef5;
+
+}
+
 .rankingBtn {
   background: #dfe3eb;
-  border-radius: 6px;
-  box-shadow: 1px 1px 10px rgb(62 54 63 / 46%);
-  cursor: pointer;
-  font-size: 2rem;
-  height: 100%;
-  width: 20vw;
+  color: #282c34;
 }
 
 .goodMessage {

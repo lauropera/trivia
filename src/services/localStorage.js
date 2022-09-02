@@ -12,5 +12,6 @@ if (!getStorage('options')) {
     category: 'Any category',
     difficulty: 'Any difficulty',
     type: 'Any Type',
+    quantity: '10',
   }));
 }

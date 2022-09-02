@@ -19,19 +19,10 @@ class Ranking extends Component {
 
   render() {
     const { items } = this.state;
-    const { history } = this.props;
     return (
       <div>
-        <Header hideScore />
+        <Header hideScore homeBtn />
         <div className="ranking-body">
-          <button
-            type="button"
-            className="home-button"
-            data-testid="btn-go-home"
-            onClick={ () => history.push('/') }
-          >
-            Home
-          </button>
           <h1 data-testid="ranking-title">Ranking</h1>
           <div className="ranking-list">
             {items.map((item, index) => (

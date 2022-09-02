@@ -1,22 +1,10 @@
 .Answer-Btn {
   background-color: #caced8;
+  color: #282c34;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .Answer-Btn:hover {
   filter: brightness(105%);
-}
-
-.correct {
-  background-color: #697a21;
-  border: 3px solid #697a21;
-  color: white;
-  transition: 0.2s;
-}
-
-.wrong {
-  background-color: #dd403a;
-  border: 3px solid #dd403a;
-  color: white;
-  transition: 0.2s;
 }

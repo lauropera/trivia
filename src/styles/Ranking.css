@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-top: 10vh;
   padding: 2rem;
 }
 
@@ -43,21 +44,4 @@
   color: #3e363f;
   font-weight: 600;
   width: 50%;
-}
-
-.home-button {
-  align-self: flex-start;
-  background-color: #e5ecf3;
-  border-radius: 0.4rem;
-  box-shadow: 0.2rem 0.2rem 0.9rem rgb(0, 0, 0, 0.2);
-  color: #162127cb;
-  font-size: 2rem;
-  padding: 2rem;
-}
-
-.home-button:hover {
-  background-color: #dee9f4;
-  box-shadow: 0.1rem 0.1rem 0.2rem rgb(0, 0, 0, 0.2);
-  color: #162127cb;
-  cursor: pointer;
 }

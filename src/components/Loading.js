@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { bool } from 'prop-types';
+import LoadingIcons from 'react-loading-icons';
 import '../styles/Game.css';
 
-class Loading extends Component {
-  render() {
-    return (
-      <div className="Loading">
-        <span>Loading...</span>
-      </div>
-    );
-  }
+function Loading({ inSettings }) {
+  return (
+    <LoadingIcons.Oval
+      className="Loading"
+      stroke={ inSettings ? '#dfe3eb' : '#282c34' }
+    />
+  );
 }
+
+Loading.defaultProps = { inSettings: false };
+Loading.propTypes = { inSettings: bool };
 
 export default Loading;

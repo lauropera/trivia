@@ -46,7 +46,7 @@ class Feedback extends Component {
   render() {
     return (
       <main>
-        <Header hideScore />
+        <Header hideScore homeBtn />
         <div className="feedback-container">
           <FeedbackMessage />
           <Score />

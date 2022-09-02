@@ -38,11 +38,12 @@
   width: 100%;
 }
 
-.Settings-Form label select {
+.Settings-Form label select, .Settings-Form label input {
   border-radius: 0.4rem;
   color: #162127bd;
   font-size: 1.8rem;
   padding: 0.8rem;
+  text-align: center;
   width: 380px;
 }
 

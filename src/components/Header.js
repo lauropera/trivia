@@ -1,31 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { bool, number, string } from 'prop-types';
-// import md5 from 'crypto-js/md5';
+import { FaHome } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import getPicture from '../helpers/defaultPicture';
 import '../styles/Header.css';
 
-class Header extends Component {
-  render() {
-    const { email, name, score, hideScore } = this.props;
-    return (
-      <header className={ !hideScore ? 'header-game' : 'header-game-noscore' }>
-        {!hideScore && (
-          <div className="Score-Container">
-            <p data-testid="header-score">{score}</p>
-          </div>
-        )}
-        <div className="Player-Container">
-          <p data-testid="header-player-name">{name}</p>
-          <img
-            src={ getPicture(name, email) }
-            alt={ name }
-            data-testid="header-profile-picture"
-          />
+function Header({ email, name, score, hideScore, homeBtn }) {
+  const history = useHistory();
+  return (
+    <header className="header-game">
+      {!hideScore && (
+        <div className="Score-Container">
+          <p data-testid="header-score">{score}</p>
         </div>
-      </header>
-    );
-  }
+      )}
+      {homeBtn && (
+        <button
+          type="button"
+          className="home-button"
+          data-testid="btn-go-home"
+          onClick={ () => history.push('/') }
+          alt="House Icon"
+        >
+          <FaHome />
+        </button>
+      )}
+      <div className="Player-Container">
+        <p data-testid="header-player-name">{name}</p>
+        <img
+          src={ getPicture(name, email) }
+          alt={ name }
+          data-testid="header-profile-picture"
+        />
+      </div>
+    </header>
+  );
 }
 
 const mapStateToProps = (state) => ({
@@ -39,6 +49,7 @@ Header.defaultProps = {
   name: '',
   score: 0,
   hideScore: false,
+  homeBtn: false,
 };
 
 Header.propTypes = {
@@ -46,6 +57,7 @@ Header.propTypes = {
   name: string,
   score: number,
   hideScore: bool,
+  homeBtn: bool,
 };
 
 export default connect(mapStateToProps)(Header);
