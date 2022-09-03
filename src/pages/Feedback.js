@@ -31,8 +31,9 @@ class Feedback extends Component {
       picture,
     };
     if (name && score !== 0) {
+      // .sort((a, b) => b.score - a.score)
       const items = JSON.parse(localStorage.getItem('ranking') || '[]');
-      const itemsSorted = items.concat(data).sort((a, b) => b.score - a.score);
+      const itemsSorted = items.concat(data);
       saveStorage('ranking', JSON.stringify(itemsSorted));
     }
   };

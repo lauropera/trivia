@@ -1,4 +1,4 @@
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import React from 'react';
 import App from '../App';
@@ -16,7 +16,10 @@ describe('Testes com a tela de Settings', () => {
     });
     renderWithRouterAndRedux(<Settings />);
 
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    await waitFor(() => {
+      const categoryInput = screen.getByLabelText(/category/i);
+      expect(categoryInput).toBeInTheDocument();
+    });
 
     const categoryInput = screen.getByLabelText(/category/i);
     userEvent.selectOptions(categoryInput, 'Animals');
@@ -30,7 +33,10 @@ describe('Testes com a tela de Settings', () => {
     });
     renderWithRouterAndRedux(<Settings />);
 
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    await waitFor(() => {
+      const categoryInput = screen.getByLabelText(/category/i);
+      expect(categoryInput).toBeInTheDocument();
+    });
 
     const categoryInput = screen.getByLabelText(/category/i);
     expect(categoryInput).toHaveValue('Animals');
@@ -46,7 +52,10 @@ describe('Testes com a tela de Settings', () => {
     window.localStorage.clear();
     history.push('/settings');
 
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    await waitFor(() => {
+      const categoryInput = screen.getByLabelText(/category/i);
+      expect(categoryInput).toBeInTheDocument();
+    });
 
     const categoryInput = screen.getByLabelText(/category/i);
     expect(categoryInput).toHaveValue('Any Category');
@@ -59,7 +68,10 @@ describe('Testes com a tela de Settings', () => {
     });
     renderWithRouterAndRedux(<Settings />);
 
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    await waitFor(() => {
+      const categoryInput = screen.getByLabelText(/category/i);
+      expect(categoryInput).toBeInTheDocument();
+    });
 
     const difficultyInput = screen.getByLabelText(/difficulty/i);
     userEvent.selectOptions(difficultyInput, 'Hard');

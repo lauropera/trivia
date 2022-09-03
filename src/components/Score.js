@@ -8,7 +8,7 @@ class Score extends Component {
     return (
       <div className="score-info">
         <p id="total-question" data-testid="feedback-total-question">
-          {assertions === 1 ? '1 Right answer ' : `${assertions} Right answers`}
+          {assertions === 1 ? '1 Right answer' : `${assertions} Right answers`}
         </p>
         <p className="total-score" data-testid="feedback-total-score">
           {score}

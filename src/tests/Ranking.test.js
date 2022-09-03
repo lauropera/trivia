@@ -24,60 +24,34 @@ describe('Testes com a tela de Ranking', () => {
   });
 
   it('Verifica se a ordem do score é decrescente aos pontos', async () => {
-    const { history } = renderWithRouterAndRedux(<App />, {
-      player: {
-        name: 'Marcus',
-        score: 300,
-        assertions: 3,
-        gravatarEmail: 'marcus@teste.com',
+    localStorage.clear();
+    const ranking = [
+      {
+        "name": "Marcus",
+        "score": 300,
+        "picture": "https://www.gravatar.com/avatar/487bef338bbfa4e4837d14699983d384"
       },
-    });
-    history.push('/feedback');
+      {
+        "name": "Lauro",
+        "score": 76,
+        "picture": "https://www.gravatar.com/avatar/487bef338bbfa4e4837d14699983d384"
+      },
+      {
+        "name": "Jesus",
+        "score": 7600,
+        "picture": "https://www.gravatar.com/avatar/487bef338bbfa4e4837d14699983d384"
+      }
+    ]
 
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(token),
-    });
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/ranking')
 
-    const playAgainBtn = screen.getByTestId('btn-play-again');
-    userEvent.click(playAgainBtn);
-
-    const emailInput = screen.getByTestId('input-gravatar-email');
-    const nameInput = screen.getByTestId('input-player-name');
-    const playBtn = screen.getByTestId('btn-play');
-
-    userEvent.type(emailInput, 'lauro@teste.com');
-    userEvent.type(nameInput, 'Lauro');
-    userEvent.click(playBtn);
-
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(questions),
-    });
-
-    URL = `https://opentdb.com/api.php?amount=10&token=${token.token}&category=&difficulty=&type=`;
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));
-
-    const MINIMUM_QUESTIONS = 4;
-    
-    for (let question = 0; question < MINIMUM_QUESTIONS; question += 1) {
-      const btn = await screen.findAllByTestId(/wrong-answer-/i);
-      userEvent.click(btn[0]);
-      const nextBtn = screen.getByTestId('btn-next');
-      userEvent.click(nextBtn);
-    }
-    
-    const answer = screen.getByTestId('correct-answer');
-    userEvent.click(answer);
-    const nextBtn = screen.getByTestId('btn-next');
-    userEvent.click(nextBtn);
-
-    const rankBtn = screen.getByTestId('btn-ranking');
-    userEvent.click(rankBtn);
-
-    const marcus = screen.getByTestId('player-name-0');
-    const lauro = screen.getByTestId('player-name-1');
+    const marcus = screen.getByTestId('player-name-1');
+    const lauro = screen.getByTestId('player-name-2');
+    const jesus = screen.getByTestId('player-name-0');
     expect(marcus).toHaveTextContent('Marcus');
     expect(lauro).toHaveTextContent('Lauro');
+    expect(jesus).toHaveTextContent('Jesus')
   });
 });

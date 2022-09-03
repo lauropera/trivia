@@ -6,9 +6,12 @@ import invalidToken from './mocks/invalidTokenMock';
 import questions from './mocks/questionsMock';
 import emptyQuestions from './mocks/emptyQuestionsMock';
 import App from '../App';
+import { saveStorage } from '../services/localStorage';
 
 describe('Testes com a tela de Game', () => {
-  afterEach(() => jest.restoreAllMocks());
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
   it('Redireciona aos feedbacks caso respondido todas as perguntas ', async () => {
     jest.spyOn(global, 'fetch');
@@ -17,6 +20,14 @@ describe('Testes com a tela de Game', () => {
     });
 
     const { history } = renderWithRouterAndRedux(<App />);
+    saveStorage(
+      'options',
+      JSON.stringify({
+        category: 'Any category',
+        difficulty: 'Any difficulty',
+        type: 'Any Type',
+        quantity: '5',
+      }));
     history.push('/game');
 
     const MAX_QUESTIONS = 5;
@@ -57,7 +68,6 @@ describe('Testes com a tela de Game', () => {
     });
 
     const { history } = renderWithRouterAndRedux(<App />);
-
     let emailInput = screen.getByTestId('input-gravatar-email');
     const nameInput = screen.getByTestId('input-player-name');
     const playBtn = screen.getByTestId('btn-play');
@@ -70,8 +80,8 @@ describe('Testes com a tela de Game', () => {
       json: jest.fn().mockResolvedValue(emptyQuestions),
     });
 
-    URL = 'https://opentdb.com/api.php?amount=10&token=hue&category=&difficulty=&type=';
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));
+    URL = 'https://opentdb.com/api.php?amount=5&token=hue&category=&difficulty=&type=';
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith(URL));         
 
     const { pathname } = history.location;
     emailInput = screen.getByTestId('input-gravatar-email');

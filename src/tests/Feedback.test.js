@@ -18,6 +18,16 @@ describe('Testes com a tela de Feedback', () => {
     expect(badFeedback).toBeInTheDocument();
   });
 
+  it('Verifica se aparece "1 Right answer"', () => {
+    const { history } = renderWithRouterAndRedux(<App />, {
+      player: { assertions: 1, name: 'Boom', score: 3, gravatarEmail: '' },
+    });
+    history.push('/feedback');
+
+    const oneAnswer = screen.getByText(/1 right answer/i);
+    expect(oneAnswer).toBeInTheDocument();
+  });
+
   it('Verifica se Well Done aparece na tela', () => {
     const { history } = renderWithRouterAndRedux(<App />, {
       player: { assertions: 3, name: 'Aloha', score: 3, gravatarEmail: '' },
