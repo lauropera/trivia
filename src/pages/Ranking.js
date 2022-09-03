@@ -1,4 +1,3 @@
-import { func, shape } from 'prop-types';
 import React, { Component } from 'react';
 import defaultPicture from '../helpers/defaultPicture';
 import Header from '../components/Header';
@@ -57,9 +56,5 @@ class Ranking extends Component {
     );
   }
 }
-
-Ranking.propTypes = {
-  history: shape({ push: func }).isRequired,
-};
 
 export default Ranking;
