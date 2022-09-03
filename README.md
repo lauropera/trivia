@@ -16,11 +16,11 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
 
 ## ⚙️ Tecnologias
 
-* HTML
-* CSS
-* JavaScript
-* React.js
-* Redux
+- HTML
+- CSS
+- JavaScript
+- React.js
+- Redux
 
 <br />
 
@@ -30,55 +30,55 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
     <summary>Instalação e execução</summary>
     <br />
 
-* Faça o fork do repositório:
-      Tutorial [AQUI](https://github.com/UNIVALI-LITE/Portugol-Studio/wiki/Fazendo-um-Fork-do-reposit%C3%B3rio)
-* Abra seu terminal e navegue até a pasta onde preferir alocar o projeto.
+- Faça o fork do repositório:
+  Tutorial [AQUI](https://github.com/UNIVALI-LITE/Portugol-Studio/wiki/Fazendo-um-Fork-do-reposit%C3%B3rio)
+- Abra seu terminal e navegue até a pasta onde preferir alocar o projeto.
 
-* Clone o repositório:
+- Clone o repositório:
 
-    ```sh
-      git clone git@github.com:"SeuNomeNoGitHub"/trivia.git
-    ```
+  ```sh
+    git clone git@github.com:"SeuNomeNoGitHub"/trivia.git
+  ```
 
-* Apos ter o repositório clonado em sua maquina, execute este comando para acessar a parta do projeto:
+- Apos ter o repositório clonado em sua maquina, execute este comando para acessar a parta do projeto:
 
-    ```sh
-      cd trivia
-    ```
+  ```sh
+    cd trivia
+  ```
 
-* Dentro da pasta do projeto, execute o comando abaixo para instalar as dependências do projeto:
+- Dentro da pasta do projeto, execute o comando abaixo para instalar as dependências do projeto:
 
-    Caso utilize o npm:
+  Caso utilize o npm:
 
-    ```sh
-      npm install
-    ```
+  ```sh
+    npm install
+  ```
 
-    Caso utilize o yarn:
+  Caso utilize o yarn:
 
-    ```sh
-      yarn install
-    ```
+  ```sh
+    yarn install
+  ```
 
-* Dentro da pasta do projeto, execute o comando abaixo para iniciar o servidor do projeto:
+- Dentro da pasta do projeto, execute o comando abaixo para iniciar o servidor do projeto:
 
-    Caso utilize o npm:
+      Caso utilize o npm:
 
-    ```sh
-      npm start
-    ```
+      ```sh
+        npm start
+      ```
 
-    Caso utilize o yarn:
+      Caso utilize o yarn:
 
-    ```sh
-      yarn start
-    ```
+      ```sh
+        yarn start
+      ```
 
   O aplicativo sera executado em modo de desenvolvimento.
   Abrindo na porta padrão que o React usa: <http://localhost:3000/> em seu navegador.
 
-  </details>
-<br />
+    </details>
+  <br />
 
 ## 👥 Equipe
 
