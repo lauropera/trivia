@@ -2,7 +2,7 @@
 
 ![Preview Projeto](./imgs/Readme-gif.gif)
 
-## Acesse meu projeto <a href="https://lauropera.github.io/dont-trumps/">AQUI</a>
+## Acesse meu projeto <a href="https://lauropera.github.io/trivia/">AQUI</a>
 
 ## :satellite: Desenvolvimento
 
