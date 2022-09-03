@@ -138,6 +138,6 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
 
 #
 
-<div style="display:flex;justify-content:center;width:100%;">
-  <p style="font-size:2rem;">🍐</p>
+<div>
+  <p align="center">🍐</p>
 </div>
