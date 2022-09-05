@@ -20,7 +20,7 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
 - CSS
 - JavaScript
 - React.js
-- Redux
+- React Redux
 
 <br />
 
