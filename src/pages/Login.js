@@ -46,7 +46,7 @@ class Login extends React.Component {
         <header className="App-header">
           <h1 className="App-title">
             Tr
-            <span>iui</span>
+            <span>ivi</span>
             a
           </h1>
           <p>SUA VEZ</p>
