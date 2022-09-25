@@ -16,7 +16,7 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
 
 ## ⚙️ Tecnologias
 
-- HTML
+- HTML5
 - CSS
 - JavaScript
 - React.js
