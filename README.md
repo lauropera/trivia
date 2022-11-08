@@ -14,71 +14,58 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
 
 <br />
 
-## ⚙️ Tecnologias
-
-- HTML5
-- CSS
-- JavaScript
-- React.js
-- React Redux
-
-<br />
-
-## 📚 Documentação
+## 🚀 Instalação e execução
 
   <details>
-    <summary>Instalação e execução</summary>
+    <summary>Instalando e executando</summary>
     <br />
 
-- Faça o fork do repositório:
-  Tutorial [AQUI](https://github.com/UNIVALI-LITE/Portugol-Studio/wiki/Fazendo-um-Fork-do-reposit%C3%B3rio)
-- Abra seu terminal e navegue até a pasta onde preferir alocar o projeto.
+### 1 - Clone o repositório:
 
-- Clone o repositório:
+```
+git clone git@github.com:lauropera/trivia.git
+```
 
-  ```sh
-    git clone git@github.com:"SeuNomeNoGitHub"/trivia.git
-  ```
+### 2 - Apos ter o repositório clonado em sua maquina, execute este comando para acessar a pasta do projeto:
 
-- Apos ter o repositório clonado em sua maquina, execute este comando para acessar a parta do projeto:
+```sh
+cd trivia
+```
 
-  ```sh
-    cd trivia
-  ```
+### 3 - Dentro da pasta do projeto, execute o comando abaixo para instalar as dependências do projeto:
 
-- Dentro da pasta do projeto, execute o comando abaixo para instalar as dependências do projeto:
+Caso utilize o npm:
 
-  Caso utilize o npm:
+```sh
+npm install
+```
 
-  ```sh
-    npm install
-  ```
+Caso utilize o yarn:
 
-  Caso utilize o yarn:
+```sh
+yarn install
+```
 
-  ```sh
-    yarn install
-  ```
+### 4 - Dentro da pasta do projeto, execute o comando abaixo para iniciar o servidor do projeto:
 
-- Dentro da pasta do projeto, execute o comando abaixo para iniciar o servidor do projeto:
+Caso utilize o npm:
 
-      Caso utilize o npm:
+```sh
+npm start
+```
 
-      ```sh
-        npm start
-      ```
+Caso utilize o yarn:
 
-      Caso utilize o yarn:
+```sh
+yarn start
+```
 
-      ```sh
-        yarn start
-      ```
+### 5 - Acesse a aplicação:
 
-  O aplicativo sera executado em modo de desenvolvimento.
-  Abrindo na porta padrão que o React usa: <http://localhost:3000/> em seu navegador.
+Abrindo na porta padrão que o React usa: <http://localhost:3000/> em seu navegador.
 
-    </details>
-  <br />
+  </details>
+<br />
 
 ## 👥 Equipe
 
@@ -135,6 +122,14 @@ Nesse projeto em grupo desenvolvemos uma aplicação de um jogo Trivia, de pergu
 ![PC Screenshot](./imgs/screenshot-1.png)
 ![PC Screenshot](./imgs/screenshot-2.png)
 ![PC Screenshot](./imgs/screenshot-3.png)
+
+## ⚙️ Tecnologias
+
+- HTML5
+- CSS
+- JavaScript
+- React.js
+- React Redux
 
 #
 
